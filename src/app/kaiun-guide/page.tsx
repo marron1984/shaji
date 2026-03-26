@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getCategories, getArticlesByCategory } from "@/lib/github-articles";
-
-export const dynamic = "force-dynamic";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import Card from "@/components/ui/Card";
 import Tag from "@/components/ui/Tag";

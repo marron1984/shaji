@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import Link from "next/link";
 import HeroSection from "@/components/home/HeroSection";
 import RegionNav from "@/components/home/RegionNav";
