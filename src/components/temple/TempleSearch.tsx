@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo, useCallback } from "react";
+import Link from "next/link";
 import type { Temple } from "@/types/temple";
 
 const PREFECTURES = [
@@ -171,8 +172,13 @@ export default function TempleSearch() {
                 key={`${t.id}-${i}`}
                 className="hover:bg-[var(--color-temple-light)] transition-colors"
               >
-                <td className="px-3 py-2 font-medium text-gray-900">
-                  {t.name}
+                <td className="px-3 py-2 font-medium">
+                  <Link
+                    href={`/temples/${t.id}`}
+                    className="text-[var(--color-temple)] hover:underline"
+                  >
+                    {t.name}
+                  </Link>
                 </td>
                 <td className="px-3 py-2 text-gray-600">{t.sect}</td>
                 <td className="px-3 py-2 text-gray-600">{t.prefecture}</td>
