@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { getCategories, getArticlesByCategory } from "@/lib/github-articles";
 import Breadcrumb from "@/components/layout/Breadcrumb";
-import Card from "@/components/ui/Card";
-import Tag from "@/components/ui/Tag";
-import SectionHeading from "@/components/ui/SectionHeading";
+import KaiunGuideClient from "@/components/article/KaiunGuideClient";
 
 export const metadata: Metadata = {
   title: "開運ガイド - 風水・縁起物・参拝マナー",
@@ -13,7 +10,18 @@ export const metadata: Metadata = {
 };
 
 export default function KaiunGuidePage() {
-  const categories = getCategories();
+  const categories = getCategories().map((cat) => ({
+    id: cat.id,
+    slug: cat.slug,
+    name: cat.name,
+    articles: getArticlesByCategory(cat.slug).map((a) => ({
+      slug: a.slug,
+      title: a.title,
+      categoryId: a.categoryId,
+      categoryName: a.categoryName,
+      excerpt: a.excerpt,
+    })),
+  }));
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
@@ -21,54 +29,10 @@ export default function KaiunGuidePage() {
         items={[{ label: "ホーム", href: "/" }, { label: "開運ガイド" }]}
       />
       <h1 className="text-3xl font-bold mt-4 mb-2">開運ガイド</h1>
-      <p className="text-gray-600 mb-8">
+      <p className="text-gray-600 mb-6">
         風水、縁起物、参拝マナーなど、運気を上げるための情報をカテゴリ別にまとめました。
       </p>
-
-      {categories.length === 0 ? (
-        <p className="text-gray-400 py-12 text-center">記事を準備中です。</p>
-      ) : (
-        <div className="space-y-12">
-          {categories.map((cat) => {
-            const articles = getArticlesByCategory(cat.slug);
-            return (
-              <section key={cat.slug}>
-                <SectionHeading>
-                  {cat.name}
-                  <span className="ml-2 text-sm font-normal text-gray-500">
-                    （{cat.articleCount}件）
-                  </span>
-                </SectionHeading>
-                <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                  {articles.map((article) => (
-                    <Link
-                      key={`${cat.slug}-${article.slug}`}
-                      href={`/kaiun-guide/${cat.id}/${article.slug}`}
-                      className="block"
-                    >
-                      <Card className="h-full hover:shadow-lg transition-shadow">
-                        <div className="h-2 bg-[var(--color-gold)]" />
-                        <div className="p-5">
-                          <Tag label={cat.name} variant="gold" />
-                          <h2 className="mt-2 text-lg font-bold text-gray-800">
-                            {article.title}
-                          </h2>
-                          <p className="mt-2 text-sm text-gray-600 line-clamp-3">
-                            {article.excerpt}
-                          </p>
-                          <p className="mt-3 text-sm font-medium text-[var(--color-gold)]">
-                            記事を読む &rarr;
-                          </p>
-                        </div>
-                      </Card>
-                    </Link>
-                  ))}
-                </div>
-              </section>
-            );
-          })}
-        </div>
-      )}
+      <KaiunGuideClient categories={categories} />
     </div>
   );
 }
