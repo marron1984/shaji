@@ -23,9 +23,68 @@ function parseFilename(filename) {
   return null;
 }
 
+// 丸ごと除去するセクション（見出しキーワード）
+const REMOVE_SECTIONS = [
+  /^導入/,
+  /^結論/,
+  /^CTA/,
+  /^行動を促す/,
+  /^次の一歩/,
+  /^次のアクション/,
+  /^今日からできる第一歩$/,
+  /^今日からできるアクション$/,
+  /^今日からできる一歩$/,
+  /^今日からできる最初の一歩$/,
+  /^今日からできること$/,
+  /^今日の一歩$/,
+  /^今すぐできるアクション$/,
+  /^今すぐできる最初の一歩$/,
+  /^今すぐできること$/,
+  /^今すぐ始めよう$/,
+  /^最初の一歩/,
+  /^まずはここから/,
+];
+
+// 見出しから除去する接頭ラベル
+const HEADING_LABELS_TO_STRIP = [
+  /^原因・背景[｜|]/,
+  /^具体的な方法[｜|]/,
+  /^実践ステップ[｜|：:]/,
+  /^まとめ[｜|]/,
+  /^結論[｜| ]*──?\s*/,
+  /^導入[｜| ]*──?\s*/,
+  /^CTA[｜| ]*──?\s*/,
+];
+
+function shouldRemoveSection(heading) {
+  return REMOVE_SECTIONS.some(pattern => pattern.test(heading));
+}
+
+function cleanHeading(heading) {
+  let cleaned = heading;
+  for (const pattern of HEADING_LABELS_TO_STRIP) {
+    cleaned = cleaned.replace(pattern, "");
+  }
+  // （共感＋問題提起）等のメタ注釈を除去
+  cleaned = cleaned.replace(/[（(][^）)]*(?:共感|問題提起|行動を促す)[^）)]*[）)]/g, "");
+  return cleaned.trim();
+}
+
+function cleanBody(body) {
+  // 「いかがでしたか」「最後までお読み」等の定型フレーズを除去
+  return body
+    .replace(/いかがでしたか[？?。]?\s*/g, "")
+    .replace(/最後までお読みいただき[、,]?ありがとうございます[。.]?\s*/g, "")
+    .replace(/ぜひ[、,]?今日から[^。]*試してみてください[。.]?\s*/g, "")
+    .replace(/この記事では[、,][^。]*お伝えします[。.]\s*/g, "")
+    .replace(/この記事では[、,][^。]*ご紹介します[。.]\s*/g, "")
+    .replace(/この記事では[、,][^。]*解説します[。.]\s*/g, "")
+    .trim();
+}
+
 function parseSections(content) {
   const lines = content.split("\n");
-  const sections = [];
+  const rawSections = [];
   let currentHeading = "";
   let currentBody = [];
   let introLines = [];
@@ -45,11 +104,11 @@ function parseSections(content) {
     if (isHeading) {
       if (!foundFirstHeading && introLines.length > 0) {
         const introText = introLines.join("\n").trim();
-        if (introText) sections.push({ heading: "はじめに", body: introText });
+        if (introText) rawSections.push({ heading: "はじめに", body: introText });
       }
       foundFirstHeading = true;
       if (currentHeading) {
-        sections.push({ heading: currentHeading, body: currentBody.join("\n").trim() });
+        rawSections.push({ heading: currentHeading, body: currentBody.join("\n").trim() });
       }
       currentHeading = line.replace(/^(##\s*|■\s*)/, "").trim();
       currentBody = [];
@@ -60,12 +119,26 @@ function parseSections(content) {
     }
   }
   if (currentHeading) {
-    sections.push({ heading: currentHeading, body: currentBody.join("\n").trim() });
+    rawSections.push({ heading: currentHeading, body: currentBody.join("\n").trim() });
   }
-  if (sections.length === 0) {
+  if (rawSections.length === 0) {
     const body = lines.slice(startIndex).join("\n").trim();
-    if (body) sections.push({ heading: "本文", body });
+    if (body) rawSections.push({ heading: "本文", body });
   }
+
+  // フィルタリング＆クリーニング
+  const sections = [];
+  for (const sec of rawSections) {
+    if (shouldRemoveSection(sec.heading)) continue;
+    if (!sec.body.trim()) continue;
+
+    const heading = cleanHeading(sec.heading);
+    const body = cleanBody(sec.body);
+    if (!body) continue;
+
+    sections.push({ heading: heading || sec.heading, body });
+  }
+
   return sections;
 }
 
