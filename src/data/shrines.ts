@@ -1,4 +1,5 @@
 import { Shrine } from "@/types";
+import { shrinesBatch2 } from "./shrines-batch2";
 import { shrinesBatch3 } from "./shrines-batch3";
 
 const shrinesBase: Shrine[] = [
@@ -529,4 +530,4 @@ const shrinesBase: Shrine[] = [
   },
 ];
 
-export const shrines: Shrine[] = [...shrinesBase, ...shrinesBatch3];
+export const shrines: Shrine[] = [...shrinesBase, ...shrinesBatch2, ...shrinesBatch3];
