@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* output: "export" を有効にするには記事データが必要 */
+  output: "export",
 };
 
 export default nextConfig;
