@@ -27,7 +27,7 @@ export default function HomePage() {
               {articles.map((article) => (
                 <Link
                   key={`${article.category}-${article.slug}`}
-                  href={`/kaiun-guide/${article.category}/${article.slug}`}
+                  href={`/kaiun-guide/${article.categoryId}/${article.slug}`}
                   className="block"
                 >
                   <Card className="h-full hover:shadow-lg transition-shadow">

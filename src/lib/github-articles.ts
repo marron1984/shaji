@@ -16,6 +16,7 @@ interface ArticleData {
 }
 
 export interface CategoryInfo {
+  id: string;
   slug: string;
   name: string;
   articleCount: number;
@@ -25,6 +26,7 @@ export interface ArticleSummary {
   slug: string;
   number: string;
   title: string;
+  categoryId: string;
   category: string;
   categoryName: string;
   excerpt: string;
@@ -37,6 +39,16 @@ export interface ArticleFull extends ArticleSummary {
 
 const data = articlesData as CategoryData[];
 
+/** カテゴリslugから番号だけ取得 (01_風水_インテリア → 01) */
+function categoryNumber(slug: string): string {
+  return slug.split("_")[0];
+}
+
+/** 番号からカテゴリを検索 */
+function findCategoryByNumber(num: string): CategoryData | undefined {
+  return data.find((c) => categoryNumber(c.slug) === num);
+}
+
 function isPublished(publishAt: string | null): boolean {
   if (!publishAt) return true;
   return new Date(publishAt).getTime() <= Date.now();
@@ -45,6 +57,7 @@ function isPublished(publishAt: string | null): boolean {
 export function getCategories(): CategoryInfo[] {
   return data
     .map((c) => ({
+      id: categoryNumber(c.slug),
       slug: c.slug,
       name: c.name,
       articleCount: c.articles.filter((a) => isPublished(a.publishAt)).length,
@@ -53,7 +66,8 @@ export function getCategories(): CategoryInfo[] {
 }
 
 export function getArticlesByCategory(category: string): ArticleSummary[] {
-  const cat = data.find((c) => c.slug === category);
+  const cat =
+    data.find((c) => c.slug === category) || findCategoryByNumber(category);
   if (!cat) return [];
 
   return cat.articles
@@ -62,6 +76,7 @@ export function getArticlesByCategory(category: string): ArticleSummary[] {
       slug: a.slug,
       number: a.number,
       title: a.title,
+      categoryId: categoryNumber(cat.slug),
       category: cat.slug,
       categoryName: cat.name,
       excerpt: a.excerpt,
@@ -73,7 +88,8 @@ export function getArticle(
   category: string,
   slug: string
 ): ArticleFull | null {
-  const cat = data.find((c) => c.slug === category);
+  const cat =
+    data.find((c) => c.slug === category) || findCategoryByNumber(category);
   if (!cat) return null;
 
   const article = cat.articles.find((a) => a.slug === slug);
@@ -84,6 +100,7 @@ export function getArticle(
     slug: article.slug,
     number: article.number,
     title: article.title,
+    categoryId: categoryNumber(cat.slug),
     category: cat.slug,
     categoryName: cat.name,
     excerpt: article.excerpt,
@@ -100,6 +117,7 @@ export function getAllArticlesFlat(): ArticleSummary[] {
         slug: a.slug,
         number: a.number,
         title: a.title,
+        categoryId: categoryNumber(c.slug),
         category: c.slug,
         categoryName: c.name,
         excerpt: a.excerpt,

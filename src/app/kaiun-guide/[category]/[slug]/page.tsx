@@ -17,7 +17,7 @@ export async function generateStaticParams() {
   for (const cat of categories) {
     const articles = getArticlesByCategory(cat.slug);
     for (const article of articles) {
-      params.push({ category: cat.slug, slug: article.slug });
+      params.push({ category: cat.id, slug: article.slug });
     }
   }
   return params;
@@ -27,8 +27,7 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { category, slug } = await params;
-  const cat = decodeURIComponent(category);
-  const article = getArticle(cat, slug);
+  const article = getArticle(category, slug);
   if (!article) return {};
   return {
     title: `${article.title} | 開運ガイド`,
@@ -38,8 +37,7 @@ export async function generateMetadata({
 
 export default async function ArticleDetailPage({ params }: PageProps) {
   const { category, slug } = await params;
-  const cat = decodeURIComponent(category);
-  const article = getArticle(cat, slug);
+  const article = getArticle(category, slug);
   if (!article) notFound();
 
   return (
@@ -48,7 +46,7 @@ export default async function ArticleDetailPage({ params }: PageProps) {
         items={[
           { label: "ホーム", href: "/" },
           { label: "開運ガイド", href: "/kaiun-guide" },
-          { label: article.categoryName, href: "/kaiun-guide" },
+          { label: article.categoryName },
           { label: article.title },
         ]}
       />

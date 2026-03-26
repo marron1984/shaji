@@ -43,7 +43,7 @@ export default function KaiunGuidePage() {
                   {articles.map((article) => (
                     <Link
                       key={`${cat.slug}-${article.slug}`}
-                      href={`/kaiun-guide/${cat.slug}/${article.slug}`}
+                      href={`/kaiun-guide/${cat.id}/${article.slug}`}
                       className="block"
                     >
                       <Card className="h-full hover:shadow-lg transition-shadow">
