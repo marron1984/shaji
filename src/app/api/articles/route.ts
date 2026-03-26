@@ -7,7 +7,8 @@ import {
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
-  const category = searchParams.get("category");
+  const rawCategory = searchParams.get("category");
+  const category = rawCategory ? decodeURIComponent(rawCategory) : null;
   const slug = searchParams.get("slug");
 
   // GET /api/articles?category=xxx&slug=001 → 記事全文

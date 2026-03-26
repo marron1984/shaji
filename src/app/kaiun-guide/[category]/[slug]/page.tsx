@@ -1,35 +1,20 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import {
-  getCategories,
-  getArticlesByCategory,
-  getArticle,
-} from "@/lib/github-articles";
+import { getArticle } from "@/lib/github-articles";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 
-export const dynamicParams = false;
+export const dynamic = "force-dynamic";
 
 interface PageProps {
   params: Promise<{ category: string; slug: string }>;
-}
-
-export async function generateStaticParams() {
-  const categories = getCategories();
-  const params: { category: string; slug: string }[] = [];
-  for (const cat of categories) {
-    const articles = getArticlesByCategory(cat.slug);
-    for (const article of articles) {
-      params.push({ category: cat.slug, slug: article.slug });
-    }
-  }
-  return params;
 }
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { category, slug } = await params;
-  const article = getArticle(category, slug);
+  const decoded = decodeURIComponent(category);
+  const article = getArticle(decoded, slug);
   if (!article) return {};
   return {
     title: `${article.title} | 開運ガイド`,
@@ -39,7 +24,8 @@ export async function generateMetadata({
 
 export default async function ArticleDetailPage({ params }: PageProps) {
   const { category, slug } = await params;
-  const article = getArticle(category, slug);
+  const decoded = decodeURIComponent(category);
+  const article = getArticle(decoded, slug);
   if (!article) notFound();
 
   return (
