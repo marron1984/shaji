@@ -6,6 +6,7 @@ import Link from "next/link";
 const navLinks = [
   { href: "/", label: "ホーム" },
   { href: "/jinja", label: "神社・お寺一覧" },
+  { href: "/temples", label: "寺院データベース" },
   { href: "/kaiun-guide", label: "開運ガイド" },
 ];
 
