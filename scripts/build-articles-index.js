@@ -76,6 +76,8 @@ const dirs = fs.readdirSync(ARTICLES_DIR, { withFileTypes: true })
   .sort((a, b) => a.name.localeCompare(b.name));
 
 let totalArticles = 0;
+let globalIndex = 0;
+const IMMEDIATE_PUBLISH_COUNT = 600; // 最初の600記事は即時公開
 
 for (const dir of dirs) {
   const catName = parseCategoryName(dir.name);
@@ -88,15 +90,19 @@ for (const dir of dirs) {
     const parsed = parseFilename(file);
     if (!parsed) continue;
 
+    globalIndex++;
     const content = fs.readFileSync(path.join(ARTICLES_DIR, dir.name, file), "utf-8");
     const sections = parseSections(content);
     const excerpt = (sections[0]?.body || "").replace(/\n/g, " ").slice(0, 160);
+
+    // 最初の600記事は即時公開、それ以降は予約日時を維持
+    const publishAt = globalIndex <= IMMEDIATE_PUBLISH_COUNT ? null : parsed.publishAt;
 
     articles.push({
       slug: parsed.number,
       number: parsed.number,
       title: parsed.title,
-      publishAt: parsed.publishAt,
+      publishAt,
       excerpt,
       sections,
     });
