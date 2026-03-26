@@ -7,6 +7,8 @@ import ShrineList from "@/components/shrine/ShrineList";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import SectionHeading from "@/components/ui/SectionHeading";
 
+export const dynamicParams = false;
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
