@@ -16,6 +16,7 @@ export interface ArticleSummary {
   category: string;
   categoryName: string;
   excerpt: string;
+  publishAt: string | null; // ISO string or null (即時公開)
 }
 
 export interface ArticleFull extends ArticleSummary {
@@ -25,16 +26,43 @@ export interface ArticleFull extends ArticleSummary {
 
 /** カテゴリフォルダ名からカテゴリ名を抽出 */
 function parseCategoryName(dirName: string): string {
-  // "01_風水_インテリア" → "風水・インテリア"
   const parts = dirName.split("_");
   return parts.slice(1).join("・");
 }
 
-/** ファイル名からナンバーとタイトルを抽出 */
-function parseFilename(filename: string): { number: string; title: string } | null {
-  const match = filename.match(/^(\d+)_(.+)\.txt$/);
-  if (!match) return null;
-  return { number: match[1], title: match[2] };
+/**
+ * ファイル名パーサー
+ * 対応形式:
+ *   001_タイトル.txt                    → 即時公開
+ *   001_2026-03-27-0900_タイトル.txt    → 予約投稿
+ */
+function parseFilename(
+  filename: string
+): { number: string; title: string; publishAt: string | null } | null {
+  // 予約投稿: 番号_日時_タイトル.txt
+  const scheduled = filename.match(
+    /^(\d+)_(\d{4}-\d{2}-\d{2}-\d{4})_(.+)\.txt$/
+  );
+  if (scheduled) {
+    const [, num, dateStr, title] = scheduled;
+    // "2026-03-27-0900" → "2026-03-27T09:00:00+09:00"
+    const iso = `${dateStr.slice(0, 10)}T${dateStr.slice(11, 13)}:${dateStr.slice(13, 15)}:00+09:00`;
+    return { number: num, title, publishAt: iso };
+  }
+
+  // 即時公開: 番号_タイトル.txt
+  const immediate = filename.match(/^(\d+)_(.+)\.txt$/);
+  if (immediate) {
+    return { number: immediate[1], title: immediate[2], publishAt: null };
+  }
+
+  return null;
+}
+
+/** 記事が公開中かどうか */
+function isPublished(publishAt: string | null): boolean {
+  if (!publishAt) return true; // 日時なし = 即時公開
+  return new Date(publishAt).getTime() <= Date.now();
 }
 
 /** テキスト本文をセクション分割 */
@@ -48,15 +76,18 @@ function parseSections(
   let introLines: string[] = [];
   let foundFirstHeading = false;
 
-  // 1行目がタイトルならスキップ
   let startIndex = 0;
-  if (lines[0]?.trim() && !lines[0].startsWith("■") && !lines[0].startsWith("##")) {
+  if (
+    lines[0]?.trim() &&
+    !lines[0].startsWith("■") &&
+    !lines[0].startsWith("##")
+  ) {
     startIndex = 1;
   }
-  // 区切り線 (===) スキップ
   while (
     startIndex < lines.length &&
-    (lines[startIndex].trim() === "" || /^[=\-]{3,}$/.test(lines[startIndex].trim()))
+    (lines[startIndex].trim() === "" ||
+      /^[=\-]{3,}$/.test(lines[startIndex].trim()))
   ) {
     startIndex++;
   }
@@ -64,7 +95,9 @@ function parseSections(
   for (let i = startIndex; i < lines.length; i++) {
     const line = lines[i];
     const isHeading =
-      line.startsWith("## ") || line.startsWith("■ ") || line.startsWith("■");
+      line.startsWith("## ") ||
+      line.startsWith("■ ") ||
+      line.startsWith("■");
 
     if (isHeading) {
       if (!foundFirstHeading && introLines.length > 0) {
@@ -81,7 +114,6 @@ function parseSections(
         });
       }
       currentHeading = line.replace(/^(##\s*|■\s*)/, "").trim();
-      // 見出しの直後の区切り線もスキップ
       currentBody = [];
     } else if (!foundFirstHeading) {
       introLines.push(line);
@@ -97,7 +129,6 @@ function parseSections(
     });
   }
 
-  // セクションがない場合は全文を1セクションに
   if (sections.length === 0) {
     const body = lines.slice(startIndex).join("\n").trim();
     if (body) {
@@ -108,7 +139,6 @@ function parseSections(
   return sections;
 }
 
-/** 抜粋を生成 */
 function makeExcerpt(sections: { heading: string; body: string }[]): string {
   const firstBody = sections[0]?.body || "";
   return firstBody.replace(/\n/g, " ").slice(0, 160);
@@ -116,7 +146,7 @@ function makeExcerpt(sections: { heading: string; body: string }[]): string {
 
 // ─── Public API ───────────────────────────────────────
 
-/** カテゴリ一覧を取得 */
+/** カテゴリ一覧（公開済み記事のみカウント） */
 export function getCategories(): CategoryInfo[] {
   if (!fs.existsSync(ARTICLES_BASE)) return [];
 
@@ -125,18 +155,17 @@ export function getCategories(): CategoryInfo[] {
     .filter((d) => d.isDirectory() && /^\d+_/.test(d.name))
     .sort((a, b) => a.name.localeCompare(b.name))
     .map((d) => {
-      const articles = fs
-        .readdirSync(path.join(ARTICLES_BASE, d.name))
-        .filter((f) => f.endsWith(".txt"));
+      const articles = getArticlesByCategory(d.name);
       return {
         slug: d.name,
         name: parseCategoryName(d.name),
         articleCount: articles.length,
       };
-    });
+    })
+    .filter((c) => c.articleCount > 0);
 }
 
-/** カテゴリ内の記事一覧を取得 */
+/** カテゴリ内の公開済み記事一覧 */
 export function getArticlesByCategory(category: string): ArticleSummary[] {
   const dir = path.join(ARTICLES_BASE, category);
   if (!fs.existsSync(dir)) return [];
@@ -150,6 +179,7 @@ export function getArticlesByCategory(category: string): ArticleSummary[] {
     .map((f) => {
       const parsed = parseFilename(f);
       if (!parsed) return null;
+      if (!isPublished(parsed.publishAt)) return null; // 未来の記事は非表示
 
       const content = fs.readFileSync(path.join(dir, f), "utf-8");
       const sections = parseSections(content);
@@ -161,12 +191,13 @@ export function getArticlesByCategory(category: string): ArticleSummary[] {
         category,
         categoryName,
         excerpt: makeExcerpt(sections),
+        publishAt: parsed.publishAt,
       };
     })
     .filter((a): a is ArticleSummary => a !== null);
 }
 
-/** 記事全文を取得 */
+/** 記事全文を取得（公開済みのみ） */
 export function getArticle(
   category: string,
   slug: string
@@ -180,6 +211,7 @@ export function getArticle(
 
   const parsed = parseFilename(file);
   if (!parsed) return null;
+  if (!isPublished(parsed.publishAt)) return null; // 未来の記事は非表示
 
   const content = fs.readFileSync(path.join(dir, file), "utf-8");
   const sections = parseSections(content);
@@ -193,12 +225,49 @@ export function getArticle(
     categoryName,
     sections,
     excerpt: makeExcerpt(sections),
+    publishAt: parsed.publishAt,
     raw: content,
   };
 }
 
-/** 全カテゴリの全記事をフラットに取得 */
+/** 全カテゴリの公開済み記事をフラットに取得 */
 export function getAllArticlesFlat(): ArticleSummary[] {
   const categories = getCategories();
   return categories.flatMap((c) => getArticlesByCategory(c.slug));
+}
+
+/** 統計情報（管理用） */
+export function getStats(): {
+  published: number;
+  scheduled: number;
+  categories: number;
+} {
+  if (!fs.existsSync(ARTICLES_BASE)) {
+    return { published: 0, scheduled: 0, categories: 0 };
+  }
+
+  let published = 0;
+  let scheduled = 0;
+
+  const dirs = fs
+    .readdirSync(ARTICLES_BASE, { withFileTypes: true })
+    .filter((d) => d.isDirectory() && /^\d+_/.test(d.name));
+
+  for (const d of dirs) {
+    const files = fs
+      .readdirSync(path.join(ARTICLES_BASE, d.name))
+      .filter((f) => f.endsWith(".txt"));
+
+    for (const f of files) {
+      const parsed = parseFilename(f);
+      if (!parsed) continue;
+      if (isPublished(parsed.publishAt)) {
+        published++;
+      } else {
+        scheduled++;
+      }
+    }
+  }
+
+  return { published, scheduled, categories: dirs.length };
 }
