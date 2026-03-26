@@ -1,36 +1,45 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import {
-  getAllLoadedArticles,
-  getLoadedArticleBySlug,
-} from "@/lib/article-loader";
+  getCategories,
+  getArticlesByCategory,
+  getArticle,
+} from "@/lib/github-articles";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 
 export const dynamicParams = false;
 
 interface PageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ category: string; slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return getAllLoadedArticles().map((a) => ({ slug: a.slug }));
+  const categories = getCategories();
+  const params: { category: string; slug: string }[] = [];
+  for (const cat of categories) {
+    const articles = getArticlesByCategory(cat.slug);
+    for (const article of articles) {
+      params.push({ category: cat.slug, slug: article.slug });
+    }
+  }
+  return params;
 }
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const article = getLoadedArticleBySlug(slug);
+  const { category, slug } = await params;
+  const article = getArticle(category, slug);
   if (!article) return {};
   return {
     title: `${article.title} | 開運ガイド`,
-    description: article.sections[0]?.body.slice(0, 160),
+    description: article.excerpt,
   };
 }
 
 export default async function ArticleDetailPage({ params }: PageProps) {
-  const { slug } = await params;
-  const article = getLoadedArticleBySlug(slug);
+  const { category, slug } = await params;
+  const article = getArticle(category, slug);
   if (!article) notFound();
 
   return (
@@ -39,19 +48,20 @@ export default async function ArticleDetailPage({ params }: PageProps) {
         items={[
           { label: "ホーム", href: "/" },
           { label: "開運ガイド", href: "/kaiun-guide" },
+          { label: article.categoryName, href: "/kaiun-guide" },
           { label: article.title },
         ]}
       />
 
       <article className="mt-6">
-        <h1 className="text-3xl font-bold text-gray-900 leading-tight">
-          {article.title}
-        </h1>
-        <div className="mt-1 flex items-center gap-2">
+        <div className="flex items-center gap-2">
           <span className="inline-block rounded-full bg-[var(--color-gold-light)] px-3 py-0.5 text-xs font-medium text-[var(--color-gold)]">
-            開運ガイド
+            {article.categoryName}
           </span>
         </div>
+        <h1 className="mt-3 text-3xl font-bold text-gray-900 leading-tight">
+          {article.title}
+        </h1>
 
         <div className="mt-8 space-y-8">
           {article.sections.map((section, i) => (
