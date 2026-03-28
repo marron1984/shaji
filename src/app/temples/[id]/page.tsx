@@ -1,70 +1,131 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { useParams } from "next/navigation";
+import type { Metadata } from "next";
 import type { Temple } from "@/types/temple";
+import { readFileSync } from "fs";
+import { join } from "path";
+import { notFound } from "next/navigation";
+import Link from "next/link";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import Card from "@/components/ui/Card";
 import Tag from "@/components/ui/Tag";
+import { JsonLd, SITE_URL, SITE_NAME } from "@/lib/seo";
 
-export default function TempleDetailPage() {
-  const params = useParams();
-  const id = Number(params.id);
-  const [temple, setTemple] = useState<Temple | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [nearby, setNearby] = useState<Temple[]>([]);
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
 
-  useEffect(() => {
-    fetch("/data/temples.json")
-      .then((res) => res.json())
-      .then((data: Temple[]) => {
-        const found = data.find((t) => t.id === id);
-        setTemple(found || null);
-        if (found) {
-          // 同じ都道府県の寺院を最大5件表示
-          setNearby(
-            data
-              .filter(
-                (t) => t.prefecture === found.prefecture && t.id !== found.id
-              )
-              .slice(0, 5)
-          );
-        }
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, [id]);
-
-  if (loading) {
-    return (
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="flex items-center justify-center py-20">
-          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-[var(--color-temple)] border-t-transparent" />
-        </div>
-      </div>
+function loadTemple(id: number): Temple | null {
+  try {
+    const raw = readFileSync(
+      join(process.cwd(), "public/data/temples.json"),
+      "utf-8"
     );
+    const data: Temple[] = JSON.parse(raw);
+    return data.find((t) => t.id === id) || null;
+  } catch {
+    return null;
   }
+}
 
-  if (!temple) {
-    return (
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <Breadcrumb
-          items={[
-            { label: "ホーム", href: "/" },
-            { label: "寺院データベース", href: "/temples" },
-            { label: "見つかりません" },
-          ]}
-        />
-        <p className="py-20 text-center text-gray-400">
-          該当する寺院が見つかりませんでした。
-        </p>
-      </div>
+function loadNearby(temple: Temple): Temple[] {
+  try {
+    const raw = readFileSync(
+      join(process.cwd(), "public/data/temples.json"),
+      "utf-8"
     );
+    const data: Temple[] = JSON.parse(raw);
+    return data
+      .filter((t) => t.prefecture === temple.prefecture && t.id !== temple.id)
+      .slice(0, 5);
+  } catch {
+    return [];
   }
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  const temple = loadTemple(Number(id));
+  if (!temple) return {};
+
+  const url = `${SITE_URL}/temples/${id}`;
+  const title = `${temple.name}（${temple.prefecture}）- 寺院情報`;
+  const description = `${temple.name}の基本情報。${temple.sect ? `宗派: ${temple.sect}。` : ""}${temple.mainDeity ? `本尊: ${temple.mainDeity}。` : ""}所在地: ${temple.prefecture}${temple.address}`;
+
+  return {
+    title,
+    description,
+    keywords: [
+      temple.name,
+      temple.prefecture,
+      "寺院",
+      temple.sect,
+      temple.mainDeity,
+    ].filter(Boolean),
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      title: `${temple.name} - 寺院情報`,
+      description,
+      url,
+      siteName: SITE_NAME,
+      locale: "ja_JP",
+    },
+  };
+}
+
+export default async function TempleDetailPage({ params }: PageProps) {
+  const { id } = await params;
+  const temple = loadTemple(Number(id));
+  if (!temple) notFound();
+
+  const nearby = loadNearby(temple);
+  const url = `${SITE_URL}/temples/${id}`;
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BuddhistTemple",
+          name: temple.name,
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: temple.prefecture,
+            postalCode: temple.zip || undefined,
+            streetAddress: temple.address || undefined,
+            addressCountry: "JP",
+          },
+          telephone: temple.phone || undefined,
+          url: temple.url
+            ? temple.url.startsWith("http")
+              ? temple.url
+              : `http://${temple.url}`
+            : undefined,
+        }}
+      />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "ホーム",
+              item: SITE_URL,
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "寺院データベース",
+              item: `${SITE_URL}/temples`,
+            },
+            { "@type": "ListItem", position: 3, name: temple.name },
+          ],
+        }}
+      />
+
       <Breadcrumb
         items={[
           { label: "ホーム", href: "/" },

@@ -8,6 +8,7 @@ import { regions } from "@/data/regions";
 import { getFeaturedShrines } from "@/lib/shrines";
 import { getAllArticlesFlat } from "@/lib/github-articles";
 import { getCategoryMeta } from "@/data/category-meta";
+import { JsonLd, SITE_URL, SITE_NAME } from "@/lib/seo";
 
 export default function HomePage() {
   const featuredShrines = getFeaturedShrines();
@@ -15,6 +16,25 @@ export default function HomePage() {
 
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: SITE_NAME,
+          url: SITE_URL,
+          description: "日本全国の有名神社・お寺情報と開運縁起物ガイドのまとめサイト",
+          publisher: {
+            "@type": "Organization",
+            name: SITE_NAME,
+            url: SITE_URL,
+          },
+          potentialAction: {
+            "@type": "SearchAction",
+            target: `${SITE_URL}/temples?q={search_term_string}`,
+            "query-input": "required name=search_term_string",
+          },
+        }}
+      />
       <HeroSection />
 
       <div className="max-w-6xl mx-auto px-4 py-10 space-y-16">

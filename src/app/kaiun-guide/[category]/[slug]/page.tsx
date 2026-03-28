@@ -6,6 +6,8 @@ import {
   getArticle,
 } from "@/lib/github-articles";
 import Breadcrumb from "@/components/layout/Breadcrumb";
+import { JsonLd, SITE_URL, SITE_NAME } from "@/lib/seo";
+import { getCategoryMeta } from "@/data/category-meta";
 
 interface PageProps {
   params: Promise<{ category: string; slug: string }>;
@@ -29,9 +31,30 @@ export async function generateMetadata({
   const { category, slug } = await params;
   const article = getArticle(category, slug);
   if (!article) return {};
+
+  const meta = getCategoryMeta(category);
+  const url = `${SITE_URL}/kaiun-guide/${category}/${slug}`;
+
   return {
     title: `${article.title} | 開運ガイド`,
-    description: article.excerpt,
+    description: article.excerpt.slice(0, 160),
+    keywords: [article.categoryName, "開運", "運気アップ", "風水", SITE_NAME],
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      title: article.title,
+      description: article.excerpt.slice(0, 160),
+      url,
+      siteName: SITE_NAME,
+      images: [{ url: meta.image, width: 1200, height: 630, alt: article.title }],
+      locale: "ja_JP",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.excerpt.slice(0, 160),
+      images: [meta.image],
+    },
   };
 }
 
@@ -40,8 +63,41 @@ export default async function ArticleDetailPage({ params }: PageProps) {
   const article = getArticle(category, slug);
   if (!article) notFound();
 
+  const meta = getCategoryMeta(category);
+  const url = `${SITE_URL}/kaiun-guide/${category}/${slug}`;
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: article.title,
+          description: article.excerpt.slice(0, 160),
+          image: meta.image,
+          url,
+          publisher: {
+            "@type": "Organization",
+            name: SITE_NAME,
+            url: SITE_URL,
+          },
+          mainEntityOfPage: { "@type": "WebPage", "@id": url },
+          articleSection: article.categoryName,
+        }}
+      />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "ホーム", item: SITE_URL },
+            { "@type": "ListItem", position: 2, name: "開運ガイド", item: `${SITE_URL}/kaiun-guide` },
+            { "@type": "ListItem", position: 3, name: article.categoryName },
+            { "@type": "ListItem", position: 4, name: article.title },
+          ],
+        }}
+      />
+
       <Breadcrumb
         items={[
           { label: "ホーム", href: "/" },

@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import Breadcrumb from "@/components/layout/Breadcrumb";
+import { SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "このサイトについて",
-  description: "社寺まとめは、日本全国の神社・お寺の情報と開運ガイドをまとめたサイトです。",
+  description:
+    "社寺まとめは、日本全国の神社・お寺の情報と開運ガイドをまとめたサイトです。",
+  alternates: { canonical: `${SITE_URL}/about` },
 };
 
 export default function AboutPage() {

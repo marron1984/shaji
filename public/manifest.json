@@ -1,0 +1,17 @@
+{
+  "name": "社寺まとめ - 日本全国の神社・お寺ガイド",
+  "short_name": "社寺まとめ",
+  "description": "日本全国の有名神社・お寺情報と開運縁起物ガイドのまとめサイト",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#C5A03F",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}
