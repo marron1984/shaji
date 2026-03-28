@@ -7,7 +7,7 @@ const SITE_URL = "https://shaji-matome.click";
 export default function sitemap(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [];
 
-  // 固定ページ
+  // 固定ページ（日本語）
   entries.push(
     { url: SITE_URL, changeFrequency: "daily", priority: 1.0 },
     { url: `${SITE_URL}/jinja`, changeFrequency: "weekly", priority: 0.9 },
@@ -20,13 +20,34 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/about`, changeFrequency: "monthly", priority: 0.3 }
   );
 
-  // 神社・お寺個別ページ
+  // 英語ページ
+  entries.push(
+    { url: `${SITE_URL}/en`, changeFrequency: "weekly", priority: 0.9 },
+    {
+      url: `${SITE_URL}/en/shrines`,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    { url: `${SITE_URL}/en/guide`, changeFrequency: "weekly", priority: 0.7 },
+    {
+      url: `${SITE_URL}/en/temples`,
+      changeFrequency: "weekly",
+      priority: 0.7,
+    }
+  );
+
+  // 神社・お寺個別ページ（日英）
   const shrines = getAllShrines();
   for (const shrine of shrines) {
     entries.push({
       url: `${SITE_URL}/jinja/${shrine.slug}`,
       changeFrequency: "monthly",
       priority: 0.7,
+    });
+    entries.push({
+      url: `${SITE_URL}/en/shrines/${shrine.slug}`,
+      changeFrequency: "monthly",
+      priority: 0.6,
     });
   }
 
