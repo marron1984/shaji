@@ -21,6 +21,7 @@ export default function Footer() {
               {[
                 { href: "/jinja", label: "神社・お寺一覧" },
                 { href: "/kaiun-guide", label: "開運ガイド" },
+                { href: "/sanpai-manner", label: "参拝マナーガイド" },
                 { href: "/temples", label: "寺院データベース" },
               ].map((link) => (
                 <Link

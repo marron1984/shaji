@@ -17,6 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     { url: `${SITE_URL}/temples`, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${SITE_URL}/sanpai-manner`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/about`, changeFrequency: "monthly", priority: 0.3 }
   );
 

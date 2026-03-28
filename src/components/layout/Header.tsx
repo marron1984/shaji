@@ -7,6 +7,7 @@ import ThemeSwitcher from "@/components/ui/ThemeSwitcher";
 const navItems = [
   { label: "神社・お寺", href: "/jinja" },
   { label: "開運ガイド", href: "/kaiun-guide" },
+  { label: "参拝マナー", href: "/sanpai-manner" },
   { label: "寺院検索", href: "/temples" },
   { label: "English", href: "/en" },
 ];
