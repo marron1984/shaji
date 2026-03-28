@@ -78,23 +78,23 @@ export default function KaiunGuideClient({
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
-        <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center text-white">
-          <p className="mb-2 text-sm font-medium tracking-widest uppercase opacity-80">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-[var(--color-background)]" />
+      <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center text-white">
+          <p className="mb-3 text-xs font-semibold tracking-[0.4em] uppercase text-[var(--color-gold)]">
             Kaiun Guide
           </p>
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight drop-shadow-lg">
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
             開運ガイド
           </h1>
-          <p className="mt-4 max-w-lg text-base sm:text-lg opacity-90 leading-relaxed">
+          <p className="mt-4 max-w-lg text-base sm:text-lg text-white/60 leading-relaxed">
             風水・縁起物・参拝マナーなど
             <br className="sm:hidden" />
             運気を上げる{totalArticles}以上の記事
           </p>
-          <div className="mt-6 flex items-center gap-3 text-sm opacity-70">
-            <span>📂 {categories.length}カテゴリ</span>
+          <div className="mt-5 flex items-center gap-3 text-sm text-white/40">
+            <span>{categories.length}カテゴリ</span>
             <span>•</span>
-            <span>📄 {totalArticles}記事</span>
+            <span>{totalArticles}記事</span>
           </div>
         </div>
       </section>
@@ -102,13 +102,13 @@ export default function KaiunGuideClient({
       <div className="max-w-6xl mx-auto px-4">
         {/* ===== 検索バー ===== */}
         <div className="relative -mt-7 z-20 mx-auto max-w-2xl">
-          <div className="rounded-2xl bg-white shadow-xl p-1">
+          <div className="glass rounded-2xl p-1">
             <input
               type="text"
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
-              placeholder="🔍 キーワードで記事を検索..."
-              className="w-full rounded-xl border-0 bg-gray-50 px-5 py-4 text-base focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-gold)] transition-colors"
+              placeholder="キーワードで記事を検索..."
+              className="w-full rounded-xl border-0 bg-[var(--color-background-elevated)] px-5 py-4 text-base text-[var(--color-foreground)] placeholder:text-[var(--color-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--color-gold)]/50 transition-colors"
             />
           </div>
         </div>
@@ -119,8 +119,8 @@ export default function KaiunGuideClient({
             onClick={() => setSelectedCat(null)}
             className={`rounded-full px-5 py-2 text-sm font-medium transition-all ${
               selectedCat === null
-                ? "bg-[var(--color-gold)] text-white shadow-md"
-                : "bg-white text-gray-600 hover:bg-gray-100 shadow-sm"
+                ? "bg-[var(--color-gold)] text-black"
+                : "bg-[var(--color-background-card)] text-[var(--color-muted)] border border-[var(--color-border)] hover:border-[var(--color-gold)]/40 hover:text-[var(--color-gold)]"
             }`}
           >
             すべて
@@ -134,7 +134,7 @@ export default function KaiunGuideClient({
               className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
                 selectedCat === cat.id
                   ? "bg-[var(--color-gold)] text-white shadow-md"
-                  : "bg-white text-gray-600 hover:bg-gray-100 shadow-sm"
+                  : "bg-[var(--color-background-card)] text-[var(--color-muted)] border border-[var(--color-border)] hover:border-[var(--color-gold)]/40 hover:text-[var(--color-gold)]"
               }`}
             >
               {cat.emoji} {cat.name}
@@ -145,7 +145,7 @@ export default function KaiunGuideClient({
         {/* ===== 検索・フィルタ結果表示 ===== */}
         {showArticleList ? (
           <div className="mt-10 mb-16">
-            <p className="mb-6 text-sm text-gray-500">
+            <p className="mb-6 text-sm text-[var(--color-muted)]">
               <span className="font-bold text-lg text-[var(--color-gold)]">
                 {filteredCount}
               </span>
@@ -161,7 +161,7 @@ export default function KaiunGuideClient({
             </p>
 
             {filtered.length === 0 ? (
-              <p className="text-gray-400 py-16 text-center text-lg">
+              <p className="text-[var(--color-muted)]/60 py-16 text-center text-lg">
                 該当する記事が見つかりませんでした
               </p>
             ) : (
@@ -170,10 +170,10 @@ export default function KaiunGuideClient({
                   <section key={cat.slug}>
                     <div className="flex items-center gap-3 mb-5">
                       <span className="text-2xl">{cat.emoji}</span>
-                      <h2 className="text-xl font-bold text-gray-800">
+                      <h2 className="text-xl font-bold text-[var(--color-foreground)]">
                         {cat.name}
                       </h2>
-                      <span className="text-sm text-gray-400">
+                      <span className="text-sm text-[var(--color-muted)]/60">
                         {cat.articles.length}件
                       </span>
                     </div>
@@ -197,10 +197,10 @@ export default function KaiunGuideClient({
           <>
             {/* ===== 人気カテゴリ（大きなカード） ===== */}
             <section className="mt-12">
-              <h2 className="text-2xl font-bold text-gray-800 text-center mb-2">
+              <h2 className="text-2xl font-bold text-[var(--color-foreground)] text-center mb-2">
                 人気カテゴリ
               </h2>
-              <p className="text-center text-gray-500 text-sm mb-8">
+              <p className="text-center text-[var(--color-muted)] text-sm mb-8">
                 よく読まれているカテゴリを厳選
               </p>
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -208,7 +208,7 @@ export default function KaiunGuideClient({
                   <button
                     key={cat.id}
                     onClick={() => setSelectedCat(cat.id)}
-                    className="group relative h-56 overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-all text-left"
+                    className="group relative h-56 overflow-hidden rounded-2xl border border-[var(--color-border)] hover:border-white/15 transition-all text-left"
                   >
                     <Image
                       src={cat.image}
@@ -239,10 +239,10 @@ export default function KaiunGuideClient({
 
             {/* ===== 全カテゴリ一覧 ===== */}
             <section className="mt-16 mb-16">
-              <h2 className="text-2xl font-bold text-gray-800 text-center mb-2">
+              <h2 className="text-2xl font-bold text-[var(--color-foreground)] text-center mb-2">
                 全カテゴリ一覧
               </h2>
-              <p className="text-center text-gray-500 text-sm mb-8">
+              <p className="text-center text-[var(--color-muted)] text-sm mb-8">
                 {categories.length}カテゴリ・{totalArticles}記事
               </p>
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -250,7 +250,7 @@ export default function KaiunGuideClient({
                   <button
                     key={cat.id}
                     onClick={() => setSelectedCat(cat.id)}
-                    className="group flex items-center gap-4 rounded-xl bg-white p-4 shadow-sm hover:shadow-md transition-all text-left"
+                    className="group flex items-center gap-4 rounded-xl bg-[var(--color-background-card)] border border-[var(--color-border)] p-4 hover:border-white/15 transition-all text-left"
                   >
                     <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg">
                       <Image
@@ -262,10 +262,10 @@ export default function KaiunGuideClient({
                       />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h3 className="font-bold text-gray-800 group-hover:text-[var(--color-gold)] transition-colors">
+                      <h3 className="font-bold text-[var(--color-foreground)] group-hover:text-[var(--color-gold)] transition-colors">
                         {cat.emoji} {cat.name}
                       </h3>
-                      <p className="mt-0.5 text-xs text-gray-500 line-clamp-1">
+                      <p className="mt-0.5 text-xs text-[var(--color-muted)] line-clamp-1">
                         {cat.description}
                       </p>
                       <p className="mt-1 text-xs font-medium text-[var(--color-gold)]">
@@ -298,7 +298,7 @@ function ArticleCard({
   return (
     <Link
       href={`/kaiun-guide/${categoryId}/${article.slug}`}
-      className="group block overflow-hidden rounded-xl bg-white shadow-sm hover:shadow-lg transition-all"
+      className="group block overflow-hidden rounded-xl bg-[var(--color-background-card)] border border-[var(--color-border)] hover:border-white/15 transition-all"
     >
       <div className="relative h-36 overflow-hidden">
         <Image
@@ -309,15 +309,15 @@ function ArticleCard({
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-        <span className="absolute top-3 left-3 text-xs font-medium bg-white/90 backdrop-blur-sm rounded-full px-2.5 py-1 text-gray-700">
+        <span className="absolute top-3 left-3 text-xs font-medium bg-white/90 backdrop-blur-sm rounded-full px-2.5 py-1 text-[var(--color-muted)]">
           {categoryEmoji} {article.categoryName}
         </span>
       </div>
       <div className="p-4">
-        <h3 className="font-bold text-gray-800 line-clamp-2 group-hover:text-[var(--color-gold)] transition-colors">
+        <h3 className="font-bold text-[var(--color-foreground)] line-clamp-2 group-hover:text-[var(--color-gold)] transition-colors">
           {article.title}
         </h3>
-        <p className="mt-2 text-sm text-gray-500 line-clamp-2">
+        <p className="mt-2 text-sm text-[var(--color-muted)] line-clamp-2">
           {article.excerpt}
         </p>
         <p className="mt-3 text-sm font-medium text-[var(--color-gold)]">

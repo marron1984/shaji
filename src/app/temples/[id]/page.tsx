@@ -137,7 +137,7 @@ export default async function TempleDetailPage({ params }: PageProps) {
       {/* ヘッダー */}
       <div className="mt-6">
         <div className="flex items-center gap-3 flex-wrap">
-          <h1 className="text-3xl font-bold text-gray-900">{temple.name}</h1>
+          <h1 className="text-3xl font-bold text-[var(--color-foreground)]">{temple.name}</h1>
           <Tag label="お寺" variant="temple" />
         </div>
         {temple.sect && (
@@ -150,16 +150,16 @@ export default async function TempleDetailPage({ params }: PageProps) {
       {/* 基本情報 */}
       <Card className="mt-6">
         <div className="p-6">
-          <h2 className="text-lg font-bold text-gray-800 mb-4 border-l-4 border-[var(--color-temple)] pl-3">
+          <h2 className="text-lg font-bold text-[var(--color-foreground)] mb-4 border-l-4 border-[var(--color-temple)] pl-3">
             基本情報
           </h2>
           <dl className="grid gap-4 sm:grid-cols-2">
             <div>
-              <dt className="text-sm font-medium text-gray-500">所在地</dt>
-              <dd className="mt-1 text-gray-900">
+              <dt className="text-sm font-medium text-[var(--color-muted)]">所在地</dt>
+              <dd className="mt-1 text-[var(--color-foreground)]">
                 {temple.prefecture}
                 {temple.address && (
-                  <span className="block text-sm text-gray-600">
+                  <span className="block text-sm text-[var(--color-muted)]">
                     {temple.address}
                   </span>
                 )}
@@ -167,35 +167,35 @@ export default async function TempleDetailPage({ params }: PageProps) {
             </div>
             {temple.zip && (
               <div>
-                <dt className="text-sm font-medium text-gray-500">
+                <dt className="text-sm font-medium text-[var(--color-muted)]">
                   郵便番号
                 </dt>
-                <dd className="mt-1 text-gray-900">〒{temple.zip}</dd>
+                <dd className="mt-1 text-[var(--color-foreground)]">〒{temple.zip}</dd>
               </div>
             )}
             {temple.phone && (
               <div>
-                <dt className="text-sm font-medium text-gray-500">
+                <dt className="text-sm font-medium text-[var(--color-muted)]">
                   電話番号
                 </dt>
-                <dd className="mt-1 text-gray-900">{temple.phone}</dd>
+                <dd className="mt-1 text-[var(--color-foreground)]">{temple.phone}</dd>
               </div>
             )}
             {temple.sect && (
               <div>
-                <dt className="text-sm font-medium text-gray-500">宗派</dt>
-                <dd className="mt-1 text-gray-900">{temple.sect}</dd>
+                <dt className="text-sm font-medium text-[var(--color-muted)]">宗派</dt>
+                <dd className="mt-1 text-[var(--color-foreground)]">{temple.sect}</dd>
               </div>
             )}
             {temple.mainDeity && (
               <div>
-                <dt className="text-sm font-medium text-gray-500">本尊</dt>
-                <dd className="mt-1 text-gray-900">{temple.mainDeity}</dd>
+                <dt className="text-sm font-medium text-[var(--color-muted)]">本尊</dt>
+                <dd className="mt-1 text-[var(--color-foreground)]">{temple.mainDeity}</dd>
               </div>
             )}
             {temple.url && (
               <div className="sm:col-span-2">
-                <dt className="text-sm font-medium text-gray-500">
+                <dt className="text-sm font-medium text-[var(--color-muted)]">
                   ウェブサイト
                 </dt>
                 <dd className="mt-1">
@@ -222,10 +222,10 @@ export default async function TempleDetailPage({ params }: PageProps) {
       {temple.address && (
         <Card className="mt-4">
           <div className="p-6">
-            <h2 className="text-lg font-bold text-gray-800 mb-3 border-l-4 border-[var(--color-temple)] pl-3">
+            <h2 className="text-lg font-bold text-[var(--color-foreground)] mb-3 border-l-4 border-[var(--color-temple)] pl-3">
               アクセス
             </h2>
-            <p className="text-gray-700 mb-3">
+            <p className="text-[var(--color-muted)] mb-3">
               {temple.prefecture}
               {temple.address}
             </p>
@@ -244,18 +244,18 @@ export default async function TempleDetailPage({ params }: PageProps) {
       {/* 近隣の寺院 */}
       {nearby.length > 0 && (
         <div className="mt-8">
-          <h2 className="text-lg font-bold text-gray-800 mb-4 border-l-4 border-[var(--color-gold)] pl-3">
+          <h2 className="text-lg font-bold text-[var(--color-foreground)] mb-4 border-l-4 border-[var(--color-gold)] pl-3">
             {temple.prefecture}の他の寺院
           </h2>
           <div className="grid gap-3 sm:grid-cols-2">
             {nearby.map((t) => (
               <Link key={t.id} href={`/temples/${t.id}`}>
-                <Card className="hover:shadow-md transition-shadow">
+                <Card className="hover:border-white/15 transition-shadow">
                   <div className="p-4">
-                    <p className="font-bold text-gray-800">{t.name}</p>
-                    <p className="text-sm text-gray-500">{t.sect}</p>
+                    <p className="font-bold text-[var(--color-foreground)]">{t.name}</p>
+                    <p className="text-sm text-[var(--color-muted)]">{t.sect}</p>
                     {t.mainDeity && (
-                      <p className="text-xs text-gray-400 mt-1">
+                      <p className="text-xs text-[var(--color-muted)]/60 mt-1">
                         本尊: {t.mainDeity}
                       </p>
                     )}

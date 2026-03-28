@@ -28,7 +28,7 @@ export default function TemplesPage() {
         ]}
       />
       <h1 className="text-3xl font-bold mt-4 mb-2">寺院データベース</h1>
-      <p className="text-gray-600 mb-6">
+      <p className="text-[var(--color-muted)] mb-6">
         日本全国73,000以上の寺院情報を検索できます。都道府県・宗派・キーワードで絞り込みが可能です。
       </p>
       <TempleSearch />

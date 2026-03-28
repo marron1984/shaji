@@ -113,17 +113,17 @@ export default async function ArticleDetailPage({ params }: PageProps) {
             {article.categoryName}
           </span>
         </div>
-        <h1 className="mt-3 text-3xl font-bold text-gray-900 leading-tight">
+        <h1 className="mt-3 text-3xl font-bold text-[var(--color-foreground)] leading-tight">
           {article.title}
         </h1>
 
         <div className="mt-8 space-y-8">
           {article.sections.map((section, i) => (
             <section key={i}>
-              <h2 className="text-xl font-bold text-gray-800 border-l-4 border-[var(--color-gold)] pl-4 mb-3">
+              <h2 className="text-xl font-bold text-[var(--color-foreground)] border-l-4 border-[var(--color-gold)] pl-4 mb-3">
                 {section.heading}
               </h2>
-              <div className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+              <div className="text-[var(--color-muted)] leading-relaxed whitespace-pre-wrap">
                 {section.body}
               </div>
             </section>

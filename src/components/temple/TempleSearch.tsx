@@ -76,7 +76,7 @@ export default function TempleSearch() {
       <div className="flex items-center justify-center py-20">
         <div className="text-center">
           <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-[var(--color-temple)] border-t-transparent" />
-          <p className="mt-4 text-gray-600">寺院データを読み込み中...</p>
+          <p className="mt-4 text-[var(--color-muted)]">寺院データを読み込み中...</p>
         </div>
       </div>
     );
@@ -87,13 +87,13 @@ export default function TempleSearch() {
       {/* フィルター */}
       <div className="mb-6 grid gap-3 sm:grid-cols-3">
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
+          <label className="mb-1 block text-sm font-medium text-[var(--color-muted)]">
             都道府県
           </label>
           <select
             value={prefecture}
             onChange={(e) => setPrefecture(e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+            className="w-full rounded-md border border-[var(--color-border)] px-3 py-2 text-sm"
           >
             <option value="">すべて</option>
             {PREFECTURES.map((p) => (
@@ -104,13 +104,13 @@ export default function TempleSearch() {
           </select>
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
+          <label className="mb-1 block text-sm font-medium text-[var(--color-muted)]">
             宗派
           </label>
           <select
             value={sect}
             onChange={(e) => setSect(e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+            className="w-full rounded-md border border-[var(--color-border)] px-3 py-2 text-sm"
           >
             <option value="">すべて</option>
             {sects.map((s) => (
@@ -121,7 +121,7 @@ export default function TempleSearch() {
           </select>
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
+          <label className="mb-1 block text-sm font-medium text-[var(--color-muted)]">
             キーワード検索
           </label>
           <input
@@ -129,13 +129,13 @@ export default function TempleSearch() {
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
             placeholder="寺院名・住所・本尊"
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+            className="w-full rounded-md border border-[var(--color-border)] px-3 py-2 text-sm"
           />
         </div>
       </div>
 
       {/* 件数 */}
-      <p className="mb-4 text-sm text-gray-600">
+      <p className="mb-4 text-sm text-[var(--color-muted)]">
         <span className="font-bold text-[var(--color-temple)]">
           {filtered.length.toLocaleString()}
         </span>
@@ -148,7 +148,7 @@ export default function TempleSearch() {
       </p>
 
       {/* テーブル */}
-      <div className="overflow-x-auto rounded-lg border border-gray-200">
+      <div className="overflow-x-auto rounded-lg border border-[var(--color-border)]">
         <table className="w-full text-left text-sm">
           <thead className="bg-[var(--color-temple)] text-white">
             <tr>
@@ -166,7 +166,7 @@ export default function TempleSearch() {
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-[var(--color-border)]">
             {paginated.map((t, i) => (
               <tr
                 key={`${t.id}-${i}`}
@@ -180,22 +180,22 @@ export default function TempleSearch() {
                     {t.name}
                   </Link>
                 </td>
-                <td className="px-3 py-2 text-gray-600">{t.sect}</td>
-                <td className="px-3 py-2 text-gray-600">{t.prefecture}</td>
-                <td className="hidden px-3 py-2 text-gray-600 md:table-cell">
+                <td className="px-3 py-2 text-[var(--color-muted)]">{t.sect}</td>
+                <td className="px-3 py-2 text-[var(--color-muted)]">{t.prefecture}</td>
+                <td className="hidden px-3 py-2 text-[var(--color-muted)] md:table-cell">
                   {t.address}
                 </td>
-                <td className="hidden px-3 py-2 text-gray-600 lg:table-cell">
+                <td className="hidden px-3 py-2 text-[var(--color-muted)] lg:table-cell">
                   {t.mainDeity || "—"}
                 </td>
-                <td className="hidden px-3 py-2 text-gray-600 sm:table-cell">
+                <td className="hidden px-3 py-2 text-[var(--color-muted)] sm:table-cell">
                   {t.phone || "—"}
                 </td>
               </tr>
             ))}
             {paginated.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-3 py-8 text-center text-gray-400">
+                <td colSpan={6} className="px-3 py-8 text-center text-[var(--color-muted)]/60">
                   条件に一致する寺院が見つかりませんでした
                 </td>
               </tr>
@@ -210,7 +210,7 @@ export default function TempleSearch() {
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="rounded-md border border-gray-300 px-3 py-1.5 text-sm disabled:opacity-40"
+            className="rounded-md border border-[var(--color-border)] px-3 py-1.5 text-sm disabled:opacity-40"
           >
             前へ
           </button>
@@ -218,11 +218,11 @@ export default function TempleSearch() {
             <>
               <button
                 onClick={() => setPage(1)}
-                className="rounded-md border border-gray-300 px-3 py-1.5 text-sm"
+                className="rounded-md border border-[var(--color-border)] px-3 py-1.5 text-sm"
               >
                 1
               </button>
-              {page > 4 && <span className="text-gray-400">...</span>}
+              {page > 4 && <span className="text-[var(--color-muted)]/60">...</span>}
             </>
           )}
           {Array.from({ length: 5 }, (_, i) => page - 2 + i)
@@ -234,7 +234,7 @@ export default function TempleSearch() {
                 className={`rounded-md border px-3 py-1.5 text-sm ${
                   p === page
                     ? "border-[var(--color-temple)] bg-[var(--color-temple)] text-white"
-                    : "border-gray-300"
+                    : "border-[var(--color-border)]"
                 }`}
               >
                 {p}
@@ -243,11 +243,11 @@ export default function TempleSearch() {
           {page < totalPages - 2 && (
             <>
               {page < totalPages - 3 && (
-                <span className="text-gray-400">...</span>
+                <span className="text-[var(--color-muted)]/60">...</span>
               )}
               <button
                 onClick={() => setPage(totalPages)}
-                className="rounded-md border border-gray-300 px-3 py-1.5 text-sm"
+                className="rounded-md border border-[var(--color-border)] px-3 py-1.5 text-sm"
               >
                 {totalPages}
               </button>
@@ -256,7 +256,7 @@ export default function TempleSearch() {
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
-            className="rounded-md border border-gray-300 px-3 py-1.5 text-sm disabled:opacity-40"
+            className="rounded-md border border-[var(--color-border)] px-3 py-1.5 text-sm disabled:opacity-40"
           >
             次へ
           </button>

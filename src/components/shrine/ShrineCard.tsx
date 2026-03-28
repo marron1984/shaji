@@ -3,7 +3,6 @@ import Image from "next/image";
 import type { Shrine } from "@/types";
 import Tag from "@/components/ui/Tag";
 
-/** 神社slugに対応するUnsplash画像 */
 const shrineImages: Record<string, string> = {
   "fushimi-inari":
     "https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?w=640&q=80",
@@ -15,11 +14,11 @@ const shrineImages: Record<string, string> = {
     "https://images.unsplash.com/photo-1504109586057-7a2ae83d1338?w=640&q=80",
   "izumo-taisha":
     "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=640&q=80",
-  "sensoji":
+  "senso-ji":
     "https://images.unsplash.com/photo-1570459027562-4a916cc6113f?w=640&q=80",
-  "todaiji":
+  "todai-ji":
     "https://images.unsplash.com/photo-1624253321171-1be53e12f5f4?w=640&q=80",
-  "kinkakuji":
+  "kinkaku-ji":
     "https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=640&q=80",
 };
 
@@ -34,7 +33,6 @@ const defaultImages = [
 
 function getShrineImage(slug: string): string {
   if (shrineImages[slug]) return shrineImages[slug];
-  // slugからハッシュ的にデフォルト画像を選択
   let hash = 0;
   for (let i = 0; i < slug.length; i++) {
     hash = (hash * 31 + slug.charCodeAt(i)) % defaultImages.length;
@@ -49,11 +47,13 @@ interface ShrineCardProps {
 export default function ShrineCard({ shrine }: ShrineCardProps) {
   const badgeVariant = shrine.type === "shrine" ? "shrine" : "temple";
   const image = getShrineImage(shrine.slug);
+  const glowClass =
+    shrine.type === "shrine" ? "hover:glow-shrine" : "hover:glow-gold";
 
   return (
     <Link
       href={`/jinja/${shrine.slug}`}
-      className="group block overflow-hidden rounded-2xl bg-white shadow-sm hover:shadow-xl transition-all"
+      className={`group block overflow-hidden rounded-2xl bg-[var(--color-background-card)] border border-[var(--color-border)] hover:border-white/15 transition-all ${glowClass}`}
     >
       <div className="relative h-44 overflow-hidden">
         <Image
@@ -63,7 +63,7 @@ export default function ShrineCard({ shrine }: ShrineCardProps) {
           className="object-cover transition-transform duration-500 group-hover:scale-110"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-background-card)] via-transparent to-transparent" />
         <div className="absolute top-3 left-3">
           <Tag label={shrine.typeName} variant={badgeVariant} />
         </div>
@@ -71,11 +71,11 @@ export default function ShrineCard({ shrine }: ShrineCardProps) {
           <h3 className="text-xl font-bold text-white drop-shadow-lg">
             {shrine.name}
           </h3>
-          <p className="text-xs text-white/80 mt-0.5">{shrine.prefecture}</p>
+          <p className="text-xs text-white/60 mt-0.5">{shrine.prefecture}</p>
         </div>
       </div>
       <div className="p-4">
-        <p className="text-sm leading-relaxed text-gray-600 line-clamp-2">
+        <p className="text-sm leading-relaxed text-[var(--color-muted)] line-clamp-2">
           {shrine.shortDescription}
         </p>
         <div className="mt-3 flex flex-wrap gap-1">

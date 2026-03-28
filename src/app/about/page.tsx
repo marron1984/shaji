@@ -17,7 +17,7 @@ export default function AboutPage() {
       />
       <h1 className="text-3xl font-bold mt-4 mb-6">このサイトについて</h1>
 
-      <div className="space-y-6 text-gray-700 leading-relaxed">
+      <div className="space-y-6 text-[var(--color-muted)] leading-relaxed">
         <p>
           「社寺まとめ」は、日本全国の有名な神社・お寺の情報を一つにまとめたガイドサイトです。各神社・お寺の基本情報やアクセス方法、見どころをわかりやすく紹介しています。
         </p>

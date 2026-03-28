@@ -4,7 +4,8 @@ interface SectionHeadingProps {
 
 export default function SectionHeading({ children }: SectionHeadingProps) {
   return (
-    <h2 className="border-l-4 border-[var(--color-gold)] pl-4 text-2xl font-bold text-gray-800">
+    <h2 className="text-2xl font-bold text-[var(--color-foreground)] flex items-center gap-3">
+      <span className="h-6 w-1 rounded-full bg-gradient-to-b from-[var(--color-shrine)] to-[var(--color-gold)]" />
       {children}
     </h2>
   );

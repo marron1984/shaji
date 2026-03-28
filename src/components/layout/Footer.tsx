@@ -1,30 +1,63 @@
 import Link from "next/link";
 
-const footerLinks = [
-  { href: "/", label: "ホーム" },
-  { href: "/jinja", label: "神社・お寺一覧" },
-  { href: "/kaiun-guide", label: "開運ガイド" },
-];
-
 export default function Footer() {
   return (
-    <footer className="bg-gray-800 text-white">
-      <div className="mx-auto max-w-6xl px-4 py-10">
-        <p className="text-lg font-bold">社寺まとめ</p>
-        <nav className="mt-4 flex flex-wrap gap-4">
-          {footerLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm text-gray-300 transition-colors hover:text-white"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-        <p className="mt-6 text-xs text-gray-400">
-          &copy; 2026 社寺まとめ All rights reserved.
-        </p>
+    <footer className="border-t border-[var(--color-border)] bg-[var(--color-background)]">
+      <div className="mx-auto max-w-6xl px-4 py-12">
+        <div className="grid gap-8 sm:grid-cols-3">
+          <div>
+            <p className="text-lg font-bold text-gradient">社寺まとめ</p>
+            <p className="mt-2 text-sm text-[var(--color-muted)]">
+              日本全国の神社・お寺ガイドと
+              <br />
+              開運情報のまとめサイト
+            </p>
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-[var(--color-muted)] mb-3">
+              コンテンツ
+            </p>
+            <nav className="flex flex-col gap-2">
+              {[
+                { href: "/jinja", label: "神社・お寺一覧" },
+                { href: "/kaiun-guide", label: "開運ガイド" },
+                { href: "/temples", label: "寺院データベース" },
+              ].map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm text-[var(--color-muted)] transition-colors hover:text-[var(--color-foreground)]"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-[var(--color-muted)] mb-3">
+              その他
+            </p>
+            <nav className="flex flex-col gap-2">
+              {[
+                { href: "/about", label: "このサイトについて" },
+                { href: "/en", label: "English" },
+              ].map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm text-[var(--color-muted)] transition-colors hover:text-[var(--color-foreground)]"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        </div>
+        <div className="mt-10 pt-6 border-t border-[var(--color-border)]">
+          <p className="text-xs text-[var(--color-muted)]">
+            &copy; 2026 社寺まとめ All rights reserved.
+          </p>
+        </div>
       </div>
     </footer>
   );
