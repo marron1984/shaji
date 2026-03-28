@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* ===== Default (Dark) ===== */
 @theme inline {
   --color-background: #0a0a0a;
   --color-background-card: #141414;
@@ -13,7 +14,86 @@
   --color-temple-light: rgba(107, 140, 255, 0.12);
   --color-gold: #ffb84d;
   --color-gold-light: rgba(255, 184, 77, 0.1);
-  --color-accent-gradient: linear-gradient(135deg, #ff6b5b, #ffb84d);
+}
+
+/* ===== Light ===== */
+html[data-theme="light"] {
+  --color-background: #fafafa;
+  --color-background-card: #ffffff;
+  --color-background-elevated: #f3f3f3;
+  --color-foreground: #1a1a1a;
+  --color-muted: #6b6b6b;
+  --color-border: #e0e0e0;
+  --color-shrine: #d14836;
+  --color-shrine-light: rgba(209, 72, 54, 0.08);
+  --color-temple: #2e3a6e;
+  --color-temple-light: rgba(46, 58, 110, 0.08);
+  --color-gold: #b8922e;
+  --color-gold-light: rgba(184, 146, 46, 0.08);
+}
+
+/* ===== Wafuu (和風) ===== */
+html[data-theme="wafuu"] {
+  --color-background: #f5f0e8;
+  --color-background-card: #faf6ef;
+  --color-background-elevated: #efe9de;
+  --color-foreground: #2c2418;
+  --color-muted: #7a6e5d;
+  --color-border: #d9cdb8;
+  --color-shrine: #b33b2e;
+  --color-shrine-light: rgba(179, 59, 46, 0.1);
+  --color-temple: #3a4a5e;
+  --color-temple-light: rgba(58, 74, 94, 0.08);
+  --color-gold: #a68628;
+  --color-gold-light: rgba(166, 134, 40, 0.1);
+}
+
+/* ===== Midnight Blue ===== */
+html[data-theme="midnight"] {
+  --color-background: #0c1222;
+  --color-background-card: #131d33;
+  --color-background-elevated: #1a2740;
+  --color-foreground: #e8ecf4;
+  --color-muted: #7a8ba8;
+  --color-border: #243049;
+  --color-shrine: #ff7a6e;
+  --color-shrine-light: rgba(255, 122, 110, 0.12);
+  --color-temple: #7eaaff;
+  --color-temple-light: rgba(126, 170, 255, 0.12);
+  --color-gold: #ffc963;
+  --color-gold-light: rgba(255, 201, 99, 0.1);
+}
+
+/* ===== Sakura ===== */
+html[data-theme="sakura"] {
+  --color-background: #fdf5f6;
+  --color-background-card: #ffffff;
+  --color-background-elevated: #faeef0;
+  --color-foreground: #3a2029;
+  --color-muted: #8c6b75;
+  --color-border: #ecd5da;
+  --color-shrine: #d4526e;
+  --color-shrine-light: rgba(212, 82, 110, 0.1);
+  --color-temple: #5a6e8a;
+  --color-temple-light: rgba(90, 110, 138, 0.08);
+  --color-gold: #c49232;
+  --color-gold-light: rgba(196, 146, 50, 0.08);
+}
+
+/* ===== Forest ===== */
+html[data-theme="forest"] {
+  --color-background: #0f1a12;
+  --color-background-card: #152018;
+  --color-background-elevated: #1c2b20;
+  --color-foreground: #e4ede6;
+  --color-muted: #7ea586;
+  --color-border: #2a3f2f;
+  --color-shrine: #e8735a;
+  --color-shrine-light: rgba(232, 115, 90, 0.12);
+  --color-temple: #6ba3c9;
+  --color-temple-light: rgba(107, 163, 201, 0.12);
+  --color-gold: #d4a843;
+  --color-gold-light: rgba(212, 168, 67, 0.1);
 }
 
 * {
@@ -27,37 +107,36 @@ body {
   font-family: "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN",
     system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Smooth scroll */
 html {
   scroll-behavior: smooth;
 }
 
-/* Selection color */
 ::selection {
   background: rgba(255, 184, 77, 0.3);
   color: #fff;
 }
 
-/* Glass morphism utility */
+/* Glass morphism */
 .glass {
-  background: rgba(20, 20, 20, 0.7);
+  background: color-mix(in srgb, var(--color-background) 70%, transparent);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .glass-light {
-  background: rgba(255, 255, 255, 0.05);
+  background: color-mix(in srgb, var(--color-background-card) 60%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--color-border);
 }
 
 /* Gradient text */
 .text-gradient {
-  background: linear-gradient(135deg, #ff6b5b, #ffb84d);
+  background: linear-gradient(135deg, var(--color-shrine), var(--color-gold));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -65,9 +144,9 @@ html {
 
 /* Glow effects */
 .glow-shrine {
-  box-shadow: 0 0 20px rgba(255, 107, 91, 0.15);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--color-shrine) 15%, transparent);
 }
 
 .glow-gold {
-  box-shadow: 0 0 20px rgba(255, 184, 77, 0.15);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--color-gold) 15%, transparent);
 }

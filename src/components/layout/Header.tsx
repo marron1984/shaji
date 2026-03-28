@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import ThemeSwitcher from "@/components/ui/ThemeSwitcher";
 
 const navItems = [
   { label: "神社・お寺", href: "/jinja" },
@@ -31,24 +32,28 @@ export default function Header() {
               {item.label}
             </Link>
           ))}
+          <ThemeSwitcher />
         </nav>
 
-        {/* Mobile hamburger */}
-        <button
-          onClick={() => setOpen(!open)}
-          className="md:hidden flex flex-col justify-center items-center w-10 h-10 rounded-lg hover:bg-white/5 transition-colors"
-          aria-label="メニュー"
-        >
-          <span
-            className={`block w-5 h-0.5 bg-[var(--color-foreground)] transition-all duration-300 ${open ? "rotate-45 translate-y-1.5" : ""}`}
-          />
-          <span
-            className={`block w-5 h-0.5 bg-[var(--color-foreground)] mt-1 transition-all duration-300 ${open ? "opacity-0" : ""}`}
-          />
-          <span
-            className={`block w-5 h-0.5 bg-[var(--color-foreground)] mt-1 transition-all duration-300 ${open ? "-rotate-45 -translate-y-1.5" : ""}`}
-          />
-        </button>
+        {/* Mobile: theme + hamburger */}
+        <div className="flex items-center gap-1 md:hidden">
+          <ThemeSwitcher />
+          <button
+            onClick={() => setOpen(!open)}
+            className="flex flex-col justify-center items-center w-10 h-10 rounded-lg hover:bg-white/5 transition-colors"
+            aria-label="メニュー"
+          >
+            <span
+              className={`block w-5 h-0.5 bg-[var(--color-foreground)] transition-all duration-300 ${open ? "rotate-45 translate-y-1.5" : ""}`}
+            />
+            <span
+              className={`block w-5 h-0.5 bg-[var(--color-foreground)] mt-1 transition-all duration-300 ${open ? "opacity-0" : ""}`}
+            />
+            <span
+              className={`block w-5 h-0.5 bg-[var(--color-foreground)] mt-1 transition-all duration-300 ${open ? "-rotate-45 -translate-y-1.5" : ""}`}
+            />
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
