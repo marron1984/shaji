@@ -15,10 +15,11 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
+  // Vercelビルド制限対策: 主要記事のみ静的生成、残りはオンデマンド
   const categories = getCategories();
   const params: { category: string; slug: string }[] = [];
   for (const cat of categories) {
-    const articles = getArticlesByCategory(cat.slug);
+    const articles = getArticlesByCategory(cat.slug).slice(0, 3);
     for (const article of articles) {
       params.push({ category: cat.id, slug: article.slug });
     }
