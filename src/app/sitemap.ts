@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { getCategories, getArticlesByCategory } from "@/lib/github-articles";
 import { getAllShrines } from "@/lib/shrines";
 import { getAllSaigokuTemples } from "@/data/saigoku-data";
+import { getAllBandoTemples } from "@/data/bando-data";
 
 const SITE_URL = "https://shaji-matome.click";
 
@@ -48,6 +49,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     });
+  }
+
+  // 坂東三十三観音
+  entries.push({ url: `${SITE_URL}/bando`, changeFrequency: "monthly", priority: 0.8 });
+  const bandoTemples = getAllBandoTemples();
+  for (const temple of bandoTemples) {
+    entries.push({ url: `${SITE_URL}/bando/${temple.num}`, changeFrequency: "monthly", priority: 0.7 });
   }
 
   // 神社・お寺個別ページ（日英）
