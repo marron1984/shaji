@@ -20,6 +20,7 @@ export default function Footer() {
             <nav className="flex flex-col gap-2">
               {[
                 { href: "/jinja", label: "神社・お寺一覧" },
+                { href: "/kojiki", label: "古事記の神話" },
                 { href: "/kaiun-guide", label: "開運ガイド" },
                 { href: "/sanpai-manner", label: "参拝マナーガイド" },
                 { href: "/reijo", label: "霊場めぐり" },
