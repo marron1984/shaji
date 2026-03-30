@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import Image from "next/image";
 import {
   getCategories,
   getArticlesByCategory,
@@ -108,12 +109,25 @@ export default async function ArticleDetailPage({ params }: PageProps) {
       />
 
       <article className="mt-6">
-        <div className="flex items-center gap-2">
-          <span className="inline-block rounded-full bg-[var(--color-gold-light)] px-3 py-0.5 text-xs font-medium text-[var(--color-gold)]">
-            {article.categoryName}
-          </span>
+        {/* キービジュアル */}
+        <div className="relative h-48 sm:h-64 rounded-2xl overflow-hidden mb-6">
+          <Image
+            src={meta.image}
+            alt={article.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 768px"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-background)] via-transparent to-transparent" />
+          <div className="absolute bottom-4 left-5">
+            <span className="inline-block rounded-full bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1 text-xs font-medium text-white">
+              {meta.emoji} {article.categoryName}
+            </span>
+          </div>
         </div>
-        <h1 className="mt-3 text-3xl font-bold text-[var(--color-foreground)] leading-tight">
+
+        <h1 className="text-3xl font-bold text-[var(--color-foreground)] leading-tight">
           {article.title}
         </h1>
 
