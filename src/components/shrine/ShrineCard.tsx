@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Shrine } from "@/types";
 import Tag from "@/components/ui/Tag";
-import { getShrineImage } from "@/data/shrine-images";
+import { getShrineImageByType } from "@/data/shrine-images";
 
 interface ShrineCardProps {
   shrine: Shrine;
@@ -10,7 +10,7 @@ interface ShrineCardProps {
 
 export default function ShrineCard({ shrine }: ShrineCardProps) {
   const badgeVariant = shrine.type === "shrine" ? "shrine" : "temple";
-  const image = getShrineImage(shrine.slug);
+  const image = getShrineImageByType(shrine.type);
   const glowClass =
     shrine.type === "shrine" ? "hover:glow-shrine" : "hover:glow-gold";
 

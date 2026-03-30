@@ -5,7 +5,7 @@ import { getCategories } from "@/lib/github-articles";
 import { getStats } from "@/lib/github-articles";
 import { JsonLd, SITE_URL, SITE_NAME } from "@/lib/seo";
 import Tag from "@/components/ui/Tag";
-import { getShrineImage } from "@/data/shrine-images";
+import { getShrineImageByType } from "@/data/shrine-images";
 
 const shrineNameEn: Record<string, string> = {
   "fushimi-inari": "Fushimi Inari Taisha",
@@ -113,7 +113,7 @@ export default function EnglishHomePage() {
               >
                 <div className="relative h-44 overflow-hidden">
                   <Image
-                    src={getShrineImage(shrine.slug)}
+                    src={getShrineImageByType(shrine.type)}
                     alt={shrineNameEn[shrine.slug] || shrine.name}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"

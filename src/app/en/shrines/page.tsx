@@ -5,7 +5,7 @@ import { getAllShrines } from "@/lib/shrines";
 import { getShrineEn } from "@/lib/shrine-en";
 import { SITE_URL } from "@/lib/seo";
 import Tag from "@/components/ui/Tag";
-import { getShrineImage } from "@/data/shrine-images";
+import { getShrineImageByType } from "@/data/shrine-images";
 
 export const metadata: Metadata = {
   title: "Shrines & Temples in Japan - Complete Guide",
@@ -50,7 +50,7 @@ export default function EnglishShrineListPage() {
             >
               <div className="relative h-44 overflow-hidden">
                 <Image
-                  src={getShrineImage(shrine.slug)}
+                  src={getShrineImageByType(shrine.type)}
                   alt={en?.name || shrine.name}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
