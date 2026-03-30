@@ -9,6 +9,7 @@ const navItems = [
   { label: "開運ガイド", href: "/kaiun-guide" },
   { label: "参拝マナー", href: "/sanpai-manner" },
   { label: "お遍路", href: "/ohenro" },
+  { label: "西国三十三所", href: "/saigoku" },
   { label: "寺院検索", href: "/temples" },
   { label: "English", href: "/en" },
 ];
