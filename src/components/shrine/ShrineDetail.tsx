@@ -1,6 +1,7 @@
 import type { Shrine } from "@/types";
 import Tag from "@/components/ui/Tag";
 import SectionHeading from "@/components/ui/SectionHeading";
+import { getShrineHistory } from "@/data/shrine-history";
 
 interface ShrineDetailProps {
   shrine: Shrine;
@@ -8,6 +9,7 @@ interface ShrineDetailProps {
 
 export default function ShrineDetail({ shrine }: ShrineDetailProps) {
   const badgeVariant = shrine.type === "shrine" ? "shrine" : "temple";
+  const history = getShrineHistory(shrine.slug);
 
   return (
     <div className="space-y-8">
@@ -90,6 +92,51 @@ export default function ShrineDetail({ shrine }: ShrineDetailProps) {
           {shrine.tags.map((tag) => (
             <Tag key={tag} label={tag} />
           ))}
+        </div>
+      )}
+
+      {/* 由緒・歴史 */}
+      {history && (
+        <div className="space-y-8">
+          <div>
+            <SectionHeading>由緒・歴史</SectionHeading>
+            <p className="mt-4 text-[var(--color-muted)] leading-relaxed">
+              {history.origin}
+            </p>
+          </div>
+
+          <div>
+            <SectionHeading>ご縁・ご利益</SectionHeading>
+            <p className="mt-4 text-[var(--color-muted)] leading-relaxed">
+              {history.goen}
+            </p>
+          </div>
+
+          {history.yukari.length > 0 && (
+            <div>
+              <SectionHeading>ゆかりの名士</SectionHeading>
+              <ul className="mt-4 space-y-2">
+                {history.yukari.map((person, i) => (
+                  <li
+                    key={i}
+                    className="flex items-start gap-2 text-[var(--color-muted)]"
+                  >
+                    <span className="text-[var(--color-gold)] mt-0.5 shrink-0">
+                      ◆
+                    </span>
+                    <span>{person}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div className="rounded-xl bg-[var(--color-gold-light)] border border-[var(--color-gold)]/20 px-5 py-4">
+            <p className="text-sm text-[var(--color-gold)]">
+              <span className="font-bold">💡 豆知識：</span>
+              {history.trivia}
+            </p>
+          </div>
         </div>
       )}
     </div>
