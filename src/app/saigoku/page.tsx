@@ -199,7 +199,7 @@ export default function SaigokuPage() {
                 {temples.map((t) => (
                   <tr key={t.num} className="hover:bg-white/5 transition-colors">
                     <td className="px-3 py-2.5 font-bold text-[var(--color-gold)]">{t.num}</td>
-                    <td className="px-3 py-2.5 font-medium text-[var(--color-foreground)]">{t.name}</td>
+                    <td className="px-3 py-2.5 font-medium"><Link href={`/saigoku/${t.num}`} className="text-[var(--color-foreground)] hover:text-[var(--color-gold)] transition-colors">{t.name}</Link></td>
                     <td className="px-3 py-2.5 text-[var(--color-muted)] hidden sm:table-cell">{t.pref}</td>
                     <td className="px-3 py-2.5 text-[var(--color-muted)] hidden md:table-cell">{t.honzon}</td>
                     <td className="px-3 py-2.5 text-[var(--color-muted)] hidden lg:table-cell">{t.note}</td>
@@ -234,7 +234,7 @@ export default function SaigokuPage() {
                             {num}
                           </span>
                           <div>
-                            <span className="font-medium text-[var(--color-foreground)]">{t.name}</span>
+                            <Link href={`/saigoku/${num}`} className="font-medium text-[var(--color-foreground)] hover:text-[var(--color-gold)] transition-colors">{t.name}</Link>
                             <span className="ml-2 text-sm text-[var(--color-muted)]">{t.note}</span>
                           </div>
                         </div>

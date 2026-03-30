@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getCategories, getArticlesByCategory } from "@/lib/github-articles";
 import { getAllShrines } from "@/lib/shrines";
+import { getAllSaigokuTemples } from "@/data/saigoku-data";
 
 const SITE_URL = "https://shaji-matome.click";
 
@@ -38,6 +39,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     }
   );
+
+  // 西国三十三所 個別ページ
+  const saigokuTemples = getAllSaigokuTemples();
+  for (const temple of saigokuTemples) {
+    entries.push({
+      url: `${SITE_URL}/saigoku/${temple.num}`,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    });
+  }
 
   // 神社・お寺個別ページ（日英）
   const shrines = getAllShrines();
