@@ -4,6 +4,7 @@ import { getAllShrines } from "@/lib/shrines";
 import { getAllSaigokuTemples } from "@/data/saigoku-data";
 import { getAllBandoTemples } from "@/data/bando-data";
 import { getAllChichibuTemples } from "@/data/chichibu-data";
+import { getAllKojikiStories } from "@/data/kojiki-data";
 
 const SITE_URL = "https://shaji-matome.click";
 
@@ -25,6 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/saigoku`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/reijo`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/chichibu`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/kojiki`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/about`, changeFrequency: "monthly", priority: 0.3 }
   );
 
@@ -65,6 +67,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const chichibuTemples = getAllChichibuTemples();
   for (const temple of chichibuTemples) {
     entries.push({ url: `${SITE_URL}/chichibu/${temple.num}`, changeFrequency: "monthly", priority: 0.7 });
+  }
+
+  // 古事記 個別ページ
+  const kojikiStories = getAllKojikiStories();
+  for (const story of kojikiStories) {
+    entries.push({
+      url: `${SITE_URL}/kojiki/${story.slug}`,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    });
   }
 
   // 神社・お寺個別ページ（日英）
