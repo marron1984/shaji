@@ -4,10 +4,12 @@ import KaiunGuideClient from "@/components/article/KaiunGuideClient";
 import { getCategoryMeta } from "@/data/category-meta";
 import { JsonLd, SITE_URL, SITE_NAME } from "@/lib/seo";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "開運ガイド - 風水・縁起物・参拝マナー・運気アップ",
   description:
-    "風水、縁起物、参拝マナーなど、運気を上げるための開運ガイド記事一覧。52カテゴリ、790以上の記事で開運情報をお届けします。",
+    "風水、縁起物、参拝マナーなど、運気を上げるための開運ガイド記事一覧。77カテゴリ、1,248以上の記事で開運情報をお届けします。",
   keywords: [
     "開運ガイド",
     "風水",
