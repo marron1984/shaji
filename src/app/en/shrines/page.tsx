@@ -32,6 +32,8 @@ const shrineImages: Record<string, string> = {
     "https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=640&q=80",
   "senso-ji":
     "https://images.unsplash.com/photo-1570459027562-4a916cc6113f?w=640&q=80",
+  "ise-jingu":
+    "https://images.unsplash.com/photo-1573455494060-c5595004fb6c?w=640&q=80",
 };
 
 export default function EnglishShrineListPage() {

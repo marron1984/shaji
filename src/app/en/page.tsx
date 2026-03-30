@@ -34,6 +34,8 @@ const shrineImages: Record<string, string> = {
     "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=640&q=80",
   "meiji-jingu":
     "https://images.unsplash.com/photo-1590559899731-a382839e5549?w=640&q=80",
+  "ise-jingu":
+    "https://images.unsplash.com/photo-1573455494060-c5595004fb6c?w=640&q=80",
 };
 
 const defaultImage =

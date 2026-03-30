@@ -20,6 +20,12 @@ const shrineImages: Record<string, string> = {
     "https://images.unsplash.com/photo-1624253321171-1be53e12f5f4?w=640&q=80",
   "kinkaku-ji":
     "https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=640&q=80",
+  "ise-jingu":
+    "https://images.unsplash.com/photo-1573455494060-c5595004fb6c?w=640&q=80",
+  "kasuga-taisha":
+    "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=640&q=80",
+  "nikko-toshogu":
+    "https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=640&q=80",
 };
 
 const defaultImages = [
