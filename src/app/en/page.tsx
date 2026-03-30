@@ -5,6 +5,7 @@ import { getCategories } from "@/lib/github-articles";
 import { getStats } from "@/lib/github-articles";
 import { JsonLd, SITE_URL, SITE_NAME } from "@/lib/seo";
 import Tag from "@/components/ui/Tag";
+import { getShrineImage } from "@/data/shrine-images";
 
 const shrineNameEn: Record<string, string> = {
   "fushimi-inari": "Fushimi Inari Taisha",
@@ -27,19 +28,7 @@ const shrineNameEn: Record<string, string> = {
   "hokkaido-jingu": "Hokkaido Jingu",
 };
 
-const shrineImages: Record<string, string> = {
-  "fushimi-inari":
-    "https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?w=640&q=80",
-  kiyomizudera:
-    "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=640&q=80",
-  "meiji-jingu":
-    "https://images.unsplash.com/photo-1590559899731-a382839e5549?w=640&q=80",
-  "ise-jingu":
-    "https://images.unsplash.com/photo-1573455494060-c5595004fb6c?w=640&q=80",
-};
-
-const defaultImage =
-  "https://images.unsplash.com/photo-1480796927426-f609979314bd?w=640&q=80";
+// Images now from centralized shrine-images.ts
 
 export default function EnglishHomePage() {
   const shrines = getFeaturedShrines().slice(0, 6);
@@ -124,7 +113,7 @@ export default function EnglishHomePage() {
               >
                 <div className="relative h-44 overflow-hidden">
                   <Image
-                    src={shrineImages[shrine.slug] || defaultImage}
+                    src={getShrineImage(shrine.slug)}
                     alt={shrineNameEn[shrine.slug] || shrine.name}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"

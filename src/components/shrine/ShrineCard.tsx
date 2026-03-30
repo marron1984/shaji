@@ -2,49 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Shrine } from "@/types";
 import Tag from "@/components/ui/Tag";
-
-const shrineImages: Record<string, string> = {
-  "fushimi-inari":
-    "https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?w=640&q=80",
-  kiyomizudera:
-    "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=640&q=80",
-  "meiji-jingu":
-    "https://images.unsplash.com/photo-1590559899731-a382839e5549?w=640&q=80",
-  "itsukushima-jinja":
-    "https://images.unsplash.com/photo-1504109586057-7a2ae83d1338?w=640&q=80",
-  "izumo-taisha":
-    "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=640&q=80",
-  "senso-ji":
-    "https://images.unsplash.com/photo-1570459027562-4a916cc6113f?w=640&q=80",
-  "todai-ji":
-    "https://images.unsplash.com/photo-1624253321171-1be53e12f5f4?w=640&q=80",
-  "kinkaku-ji":
-    "https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=640&q=80",
-  "ise-jingu":
-    "https://images.unsplash.com/photo-1573455494060-c5595004fb6c?w=640&q=80",
-  "kasuga-taisha":
-    "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=640&q=80",
-  "nikko-toshogu":
-    "https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=640&q=80",
-};
-
-const defaultImages = [
-  "https://images.unsplash.com/photo-1480796927426-f609979314bd?w=640&q=80",
-  "https://images.unsplash.com/photo-1528164344885-47b1492b5e7b?w=640&q=80",
-  "https://images.unsplash.com/photo-1492571350019-22de08371fd3?w=640&q=80",
-  "https://images.unsplash.com/photo-1577083552431-6e5fd01988ec?w=640&q=80",
-  "https://images.unsplash.com/photo-1522383225653-ed111181a951?w=640&q=80",
-  "https://images.unsplash.com/photo-1474631245212-32dc3c8310c6?w=640&q=80",
-];
-
-function getShrineImage(slug: string): string {
-  if (shrineImages[slug]) return shrineImages[slug];
-  let hash = 0;
-  for (let i = 0; i < slug.length; i++) {
-    hash = (hash * 31 + slug.charCodeAt(i)) % defaultImages.length;
-  }
-  return defaultImages[Math.abs(hash) % defaultImages.length];
-}
+import { getShrineImage } from "@/data/shrine-images";
 
 interface ShrineCardProps {
   shrine: Shrine;

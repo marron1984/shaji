@@ -5,6 +5,7 @@ import { getAllShrines } from "@/lib/shrines";
 import { getShrineEn } from "@/lib/shrine-en";
 import { SITE_URL } from "@/lib/seo";
 import Tag from "@/components/ui/Tag";
+import { getShrineImage } from "@/data/shrine-images";
 
 export const metadata: Metadata = {
   title: "Shrines & Temples in Japan - Complete Guide",
@@ -14,26 +15,6 @@ export const metadata: Metadata = {
     canonical: `${SITE_URL}/en/shrines`,
     languages: { ja: `${SITE_URL}/jinja`, en: `${SITE_URL}/en/shrines` },
   },
-};
-
-const defaultImage =
-  "https://images.unsplash.com/photo-1480796927426-f609979314bd?w=640&q=80";
-
-const shrineImages: Record<string, string> = {
-  "fushimi-inari":
-    "https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?w=640&q=80",
-  kiyomizudera:
-    "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=640&q=80",
-  "meiji-jingu":
-    "https://images.unsplash.com/photo-1590559899731-a382839e5549?w=640&q=80",
-  "itsukushima-jinja":
-    "https://images.unsplash.com/photo-1504109586057-7a2ae83d1338?w=640&q=80",
-  "kinkaku-ji":
-    "https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=640&q=80",
-  "senso-ji":
-    "https://images.unsplash.com/photo-1570459027562-4a916cc6113f?w=640&q=80",
-  "ise-jingu":
-    "https://images.unsplash.com/photo-1573455494060-c5595004fb6c?w=640&q=80",
 };
 
 export default function EnglishShrineListPage() {
@@ -69,7 +50,7 @@ export default function EnglishShrineListPage() {
             >
               <div className="relative h-44 overflow-hidden">
                 <Image
-                  src={shrineImages[shrine.slug] || defaultImage}
+                  src={getShrineImage(shrine.slug)}
                   alt={en?.name || shrine.name}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
