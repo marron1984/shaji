@@ -22,9 +22,7 @@ export default function Footer() {
                 { href: "/jinja", label: "神社・お寺一覧" },
                 { href: "/kaiun-guide", label: "開運ガイド" },
                 { href: "/sanpai-manner", label: "参拝マナーガイド" },
-                { href: "/ohenro", label: "お遍路ガイド" },
-                { href: "/saigoku", label: "西国三十三所" },
-                { href: "/bando", label: "坂東三十三観音" },
+                { href: "/reijo", label: "霊場めぐり" },
                 { href: "/temples", label: "寺院データベース" },
               ].map((link) => (
                 <Link

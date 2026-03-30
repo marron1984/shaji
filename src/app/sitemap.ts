@@ -3,6 +3,7 @@ import { getCategories, getArticlesByCategory } from "@/lib/github-articles";
 import { getAllShrines } from "@/lib/shrines";
 import { getAllSaigokuTemples } from "@/data/saigoku-data";
 import { getAllBandoTemples } from "@/data/bando-data";
+import { getAllChichibuTemples } from "@/data/chichibu-data";
 
 const SITE_URL = "https://shaji-matome.click";
 
@@ -22,6 +23,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/sanpai-manner`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/ohenro`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/saigoku`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/reijo`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/chichibu`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/about`, changeFrequency: "monthly", priority: 0.3 }
   );
 
@@ -56,6 +59,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const bandoTemples = getAllBandoTemples();
   for (const temple of bandoTemples) {
     entries.push({ url: `${SITE_URL}/bando/${temple.num}`, changeFrequency: "monthly", priority: 0.7 });
+  }
+
+  // 秩父三十四箇所
+  const chichibuTemples = getAllChichibuTemples();
+  for (const temple of chichibuTemples) {
+    entries.push({ url: `${SITE_URL}/chichibu/${temple.num}`, changeFrequency: "monthly", priority: 0.7 });
   }
 
   // 神社・お寺個別ページ（日英）
