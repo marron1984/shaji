@@ -8,6 +8,7 @@ const navItems = [
   { label: "神社・お寺", href: "/jinja" },
   { label: "古事記", href: "/kojiki" },
   { label: "仏様辞典", href: "/butsu-jiten" },
+  { label: "上座部仏教", href: "/theravada" },
   { label: "開運ガイド", href: "/kaiun-guide" },
   { label: "参拝マナー", href: "/sanpai-manner" },
   { label: "霊場めぐり", href: "/reijo" },
