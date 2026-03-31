@@ -5,6 +5,7 @@ import { getAllSaigokuTemples } from "@/data/saigoku-data";
 import { getAllBandoTemples } from "@/data/bando-data";
 import { getAllChichibuTemples } from "@/data/chichibu-data";
 import { getAllKojikiStories } from "@/data/kojiki-data";
+import { getAllButsuDeities } from "@/data/butsu-data";
 
 const SITE_URL = "https://shaji-matome.click";
 
@@ -74,6 +75,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
   for (const story of kojikiStories) {
     entries.push({
       url: `${SITE_URL}/kojiki/${story.slug}`,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    });
+  }
+
+  // 仏様辞典 個別ページ
+  const butsuDeities = getAllButsuDeities();
+  for (const deity of butsuDeities) {
+    entries.push({
+      url: `${SITE_URL}/butsu-jiten/${deity.slug}`,
       changeFrequency: "monthly",
       priority: 0.7,
     });
