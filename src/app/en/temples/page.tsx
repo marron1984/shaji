@@ -49,7 +49,7 @@ export default function EnglishTemplesPage() {
         Search 73,000+ temples across Japan. Data is in Japanese — use browser
         translation as needed.
       </p>
-      <TempleSearch />
+      <TempleSearch basePath="/en/temples" />
     </div>
   );
 }
