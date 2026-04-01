@@ -23,6 +23,8 @@ export default function Footer() {
                 { href: "/kojiki", label: "古事記の神話" },
                 { href: "/butsu-jiten", label: "仏様辞典" },
                 { href: "/theravada", label: "上座部仏教" },
+                { href: "/butsu-mbti", label: "仏像さんMBTI診断" },
+                { href: "/ohenro", label: "お遍路" },
                 { href: "/kaiun-guide", label: "開運ガイド" },
                 { href: "/sanpai-manner", label: "参拝マナーガイド" },
                 { href: "/reijo", label: "霊場めぐり" },
