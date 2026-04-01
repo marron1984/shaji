@@ -5,16 +5,16 @@ import Link from "next/link";
 import ThemeSwitcher from "@/components/ui/ThemeSwitcher";
 
 const navItems = [
-  { label: "Shrines & Temples", href: "/jinja" },
-  { label: "Kojiki Myths", href: "/kojiki" },
-  { label: "Buddha Dictionary", href: "/butsu-jiten" },
-  { label: "Theravada", href: "/theravada" },
-  { label: "MBTI Quiz", href: "/butsu-mbti" },
-  { label: "Ohenro Pilgrimage", href: "/ohenro" },
-  { label: "Fortune Guide", href: "/kaiun-guide" },
-  { label: "Worship Etiquette", href: "/sanpai-manner" },
-  { label: "Sacred Sites", href: "/reijo" },
-  { label: "Temple Search", href: "/temples" },
+  { label: "神社・お寺", href: "/jinja" },
+  { label: "古事記", href: "/kojiki" },
+  { label: "仏様辞典", href: "/butsu-jiten" },
+  { label: "上座部仏教", href: "/theravada" },
+  { label: "MBTI診断", href: "/butsu-mbti" },
+  { label: "お遍路", href: "/ohenro" },
+  { label: "開運ガイド", href: "/kaiun-guide" },
+  { label: "参拝マナー", href: "/sanpai-manner" },
+  { label: "霊場めぐり", href: "/reijo" },
+  { label: "寺院検索", href: "/temples" },
 ];
 
 const primaryNav = navItems.slice(0, 5);
@@ -60,7 +60,7 @@ export default function Header() {
               onClick={() => setMoreOpen(!moreOpen)}
               className="px-3 py-2 text-sm font-medium text-[var(--color-muted)] rounded-lg transition-all hover:text-[var(--color-foreground)] hover:bg-white/5 flex items-center gap-1"
             >
-              More
+              その他
               <svg
                 className={`w-3.5 h-3.5 transition-transform ${moreOpen ? "rotate-180" : ""}`}
                 fill="none"
@@ -72,7 +72,7 @@ export default function Header() {
               </svg>
             </button>
             {moreOpen && (
-              <div className="absolute right-0 top-full mt-2 w-52 rounded-xl border border-[var(--color-border)] glass shadow-xl py-2">
+              <div className="absolute right-0 top-full mt-2 w-44 rounded-xl border border-[var(--color-border)] glass shadow-xl py-2">
                 {moreNav.map((item) => (
                   <Link
                     key={item.href}
@@ -96,7 +96,7 @@ export default function Header() {
           <button
             onClick={() => setOpen(!open)}
             className="flex flex-col justify-center items-center w-10 h-10 rounded-lg hover:bg-white/5 transition-colors"
-            aria-label="Menu"
+            aria-label="メニュー"
           >
             <span
               className={`block w-5 h-0.5 bg-[var(--color-foreground)] transition-all duration-300 ${open ? "rotate-45 translate-y-1.5" : ""}`}
