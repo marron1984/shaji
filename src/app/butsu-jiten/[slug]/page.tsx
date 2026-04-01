@@ -30,7 +30,10 @@ export async function generateMetadata({
     title,
     description: deity.summary,
     keywords: deity.keywords,
-    alternates: { canonical: url },
+    alternates: {
+      canonical: url,
+      languages: { ja: `${SITE_URL}/butsu-jiten/${slug}`, en: `${SITE_URL}/en/butsu-jiten/${slug}` },
+    },
     openGraph: {
       type: "article",
       title: `${deity.name} - 仏様辞典`,

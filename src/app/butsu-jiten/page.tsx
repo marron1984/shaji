@@ -28,7 +28,10 @@ export const metadata: Metadata = {
     "不動明王",
     "阿弥陀如来",
   ],
-  alternates: { canonical: `${SITE_URL}/butsu-jiten` },
+  alternates: {
+    canonical: `${SITE_URL}/butsu-jiten`,
+    languages: { ja: `${SITE_URL}/butsu-jiten`, en: `${SITE_URL}/en/butsu-jiten` },
+  },
   openGraph: {
     title: "仏様辞典｜如来・菩薩・明王・天部を網羅的に解説",
     description:

@@ -147,7 +147,7 @@ export default function ReijoEnPage() {
             {pilgrimages.map((p) => (
               <Link
                 key={p.slug}
-                href={p.slug === "ohenro" ? `/en/${p.slug}` : `/${p.slug}`}
+                href={`/en/${p.slug}`}
                 className="group block overflow-hidden rounded-2xl bg-[var(--color-background-card)] border border-[var(--color-border)] hover:border-white/15 transition-all"
               >
                 <div className="relative h-48 overflow-hidden">

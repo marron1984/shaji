@@ -19,7 +19,10 @@ export const metadata: Metadata = {
     "明王",
     "天部",
   ],
-  alternates: { canonical: `${SITE_URL}/butsu-mbti` },
+  alternates: {
+    canonical: `${SITE_URL}/butsu-mbti`,
+    languages: { ja: `${SITE_URL}/butsu-mbti`, en: `${SITE_URL}/en/butsu-mbti` },
+  },
   openGraph: {
     title: "仏像さんMBTI診断｜あなたに似ている仏様は？",
     description:

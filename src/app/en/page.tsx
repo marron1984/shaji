@@ -231,6 +231,168 @@ export default function EnglishHomePage() {
             </Link>
           </div>
         </section>
+
+        {/* Mythology & Deities */}
+        <section>
+          <h2 className="text-2xl font-bold text-gray-800 text-center mb-2">
+            Mythology &amp; Deities
+          </h2>
+          <p className="text-center text-gray-500 text-sm mb-8">
+            Dive into Japan&apos;s rich spiritual traditions
+          </p>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              {
+                href: "/en/kojiki",
+                emoji: "📜",
+                title: "Kojiki Mythology",
+                desc: "Explore Japan's oldest myths and the divine origins of its gods and land.",
+              },
+              {
+                href: "/en/butsu-jiten",
+                emoji: "🪷",
+                title: "Buddhist Deity Encyclopedia",
+                desc: "A comprehensive guide to the Buddhas, Bodhisattvas, and guardian deities.",
+              },
+              {
+                href: "/en/theravada",
+                emoji: "🧘",
+                title: "Theravada Buddhism",
+                desc: "Discover the teachings and practices of the oldest Buddhist tradition.",
+              },
+              {
+                href: "/en/butsu-mbti",
+                emoji: "🔮",
+                title: "Buddhist Deity MBTI Quiz",
+                desc: "Find out which Buddhist deity matches your personality type.",
+              },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="group flex flex-col rounded-2xl bg-white p-6 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1"
+              >
+                <span className="text-4xl mb-3">{item.emoji}</span>
+                <h3 className="text-lg font-bold text-gray-800 group-hover:text-[var(--color-shrine)] transition-colors">
+                  {item.title}
+                </h3>
+                <p className="mt-1 text-sm text-gray-500 leading-relaxed">
+                  {item.desc}
+                </p>
+                <p className="mt-auto pt-3 text-sm font-medium text-[var(--color-shrine)] group-hover:underline">
+                  Explore →
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* Pilgrimage Routes */}
+        <section>
+          <h2 className="text-2xl font-bold text-gray-800 text-center mb-2">
+            Pilgrimage Routes
+          </h2>
+          <p className="text-center text-gray-500 text-sm mb-8">
+            Walk the ancient paths of devotion across Japan
+          </p>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                href: "/en/ohenro",
+                emoji: "🚶",
+                title: "Shikoku Pilgrimage",
+                desc: "The famous 88-temple circuit around Shikoku island.",
+              },
+              {
+                href: "/en/saigoku",
+                emoji: "🏔️",
+                title: "Saigoku Pilgrimage",
+                desc: "The oldest pilgrimage route with 33 Kannon temples.",
+              },
+              {
+                href: "/en/bando",
+                emoji: "🗾",
+                title: "Bando Pilgrimage",
+                desc: "33 sacred Kannon temples across the Kanto region.",
+              },
+              {
+                href: "/en/chichibu",
+                emoji: "🌸",
+                title: "Chichibu Pilgrimage",
+                desc: "34 temples nestled in the mountains of Saitama.",
+              },
+              {
+                href: "/en/reijo",
+                emoji: "⛰️",
+                title: "Sacred Pilgrimage Sites",
+                desc: "Overview of Japan's revered pilgrimage destinations.",
+              },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="group flex flex-col rounded-2xl bg-white p-5 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1"
+              >
+                <span className="text-3xl mb-2">{item.emoji}</span>
+                <h3 className="font-bold text-gray-800 group-hover:text-[var(--color-temple)] transition-colors">
+                  {item.title}
+                </h3>
+                <p className="mt-1 text-xs text-gray-500 leading-relaxed">
+                  {item.desc}
+                </p>
+                <p className="mt-auto pt-2 text-sm font-medium text-[var(--color-temple)] group-hover:underline">
+                  Learn more →
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* Worship & Etiquette + About */}
+        <section>
+          <h2 className="text-2xl font-bold text-gray-800 text-center mb-2">
+            Visitor Essentials
+          </h2>
+          <p className="text-center text-gray-500 text-sm mb-8">
+            Everything you need before your visit
+          </p>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <Link
+              href="/en/sanpai-manner"
+              className="group flex items-start gap-4 rounded-2xl bg-white p-6 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1"
+            >
+              <span className="text-4xl">🙏</span>
+              <div>
+                <h3 className="text-lg font-bold text-gray-800 group-hover:text-[var(--color-gold)] transition-colors">
+                  Worship Etiquette
+                </h3>
+                <p className="mt-1 text-sm text-gray-500 leading-relaxed">
+                  Learn proper manners for visiting shrines and temples, from hand-washing rituals to prayer customs.
+                </p>
+                <p className="mt-2 text-sm font-medium text-[var(--color-gold)] group-hover:underline">
+                  Read the guide →
+                </p>
+              </div>
+            </Link>
+            <Link
+              href="/en/about"
+              className="group flex items-start gap-4 rounded-2xl bg-white p-6 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1"
+            >
+              <span className="text-4xl">📖</span>
+              <div>
+                <h3 className="text-lg font-bold text-gray-800 group-hover:text-[var(--color-gold)] transition-colors">
+                  About This Site
+                </h3>
+                <p className="mt-1 text-sm text-gray-500 leading-relaxed">
+                  Learn about our mission to share Japan&apos;s spiritual heritage with the world.
+                </p>
+                <p className="mt-2 text-sm font-medium text-[var(--color-gold)] group-hover:underline">
+                  About us →
+                </p>
+              </div>
+            </Link>
+          </div>
+        </section>
       </div>
     </>
   );

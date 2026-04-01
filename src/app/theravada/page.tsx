@@ -32,7 +32,10 @@ export const metadata: Metadata = {
     "タイ仏教",
     "ミャンマー仏教",
   ],
-  alternates: { canonical: `${SITE_URL}/theravada` },
+  alternates: {
+    canonical: `${SITE_URL}/theravada`,
+    languages: { ja: `${SITE_URL}/theravada`, en: `${SITE_URL}/en/theravada` },
+  },
   openGraph: {
     title: "上座部仏教・南伝仏教ガイド｜テーラワーダの教えと歴史",
     description:
