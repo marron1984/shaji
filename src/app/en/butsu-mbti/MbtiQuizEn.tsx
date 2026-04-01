@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Card from "@/components/ui/Card";
 import Tag from "@/components/ui/Tag";
-import { mbtiQuestions, mbtiResults } from "@/data/mbti-butsu-data";
+import { mbtiQuestionsEn, mbtiResultsEn } from "@/data/mbti-butsu-data-en";
 
 type Scores = { E: number; I: number; S: number; N: number; T: number; F: number; J: number; P: number };
 
@@ -64,7 +64,7 @@ export default function MbtiQuizEn() {
   const [result, setResult] = useState<string | null>(null);
 
   const handleAnswer = (value: "A" | "B") => {
-    const q = mbtiQuestions[currentQ];
+    const q = mbtiQuestionsEn[currentQ];
     const newScores = { ...scores };
     if (value === "A") {
       newScores[q.aValue] += 1;
@@ -73,7 +73,7 @@ export default function MbtiQuizEn() {
     }
     setScores(newScores);
 
-    if (currentQ + 1 < mbtiQuestions.length) {
+    if (currentQ + 1 < mbtiQuestionsEn.length) {
       setCurrentQ(currentQ + 1);
     } else {
       setResult(calculateMbti(newScores));
@@ -87,8 +87,8 @@ export default function MbtiQuizEn() {
   };
 
   // Result screen
-  if (result && mbtiResults[result]) {
-    const r = mbtiResults[result];
+  if (result && mbtiResultsEn[result]) {
+    const r = mbtiResultsEn[result];
     const englishName = deityNameEn[r.deitySlug] || r.deity;
     const englishType = mbtiTypeNameEn[r.type] || r.typeName;
     return (
@@ -150,8 +150,8 @@ export default function MbtiQuizEn() {
   }
 
   // Quiz screen
-  const q = mbtiQuestions[currentQ];
-  const progress = ((currentQ) / mbtiQuestions.length) * 100;
+  const q = mbtiQuestionsEn[currentQ];
+  const progress = ((currentQ) / mbtiQuestionsEn.length) * 100;
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -159,7 +159,7 @@ export default function MbtiQuizEn() {
       <div className="mb-8">
         <div className="flex items-center justify-between text-sm text-[var(--color-muted)] mb-2">
           <span>
-            Question {currentQ + 1} of {mbtiQuestions.length}
+            Question {currentQ + 1} of {mbtiQuestionsEn.length}
           </span>
           <span>{Math.round(progress)}%</span>
         </div>
