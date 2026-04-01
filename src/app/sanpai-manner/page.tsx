@@ -19,7 +19,10 @@ export const metadata: Metadata = {
     "お賽銭",
     "作法",
   ],
-  alternates: { canonical: `${SITE_URL}/sanpai-manner` },
+  alternates: {
+    canonical: `${SITE_URL}/sanpai-manner`,
+    languages: { ja: `${SITE_URL}/sanpai-manner`, en: `${SITE_URL}/en/sanpai-manner` },
+  },
   openGraph: {
     title: "参拝マナー完全ガイド｜神社とお寺の正しい作法",
     description:

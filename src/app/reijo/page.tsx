@@ -10,7 +10,10 @@ export const metadata: Metadata = {
   description:
     "日本の四大巡礼（四国八十八箇所・西国三十三所・坂東三十三観音・秩父三十四箇所）を網羅した霊場めぐり完全ガイド。日本百観音についても解説。",
   keywords: ["霊場めぐり", "巡礼", "日本百観音", "四国遍路", "西国三十三所", "坂東三十三観音", "秩父三十四箇所"],
-  alternates: { canonical: `${SITE_URL}/reijo` },
+  alternates: {
+    canonical: `${SITE_URL}/reijo`,
+    languages: { ja: `${SITE_URL}/reijo`, en: `${SITE_URL}/en/reijo` },
+  },
   openGraph: { title: "霊場めぐりガイド", description: "日本の四大巡礼を網羅した霊場めぐり完全ガイド。", url: `${SITE_URL}/reijo`, type: "website" },
 };
 

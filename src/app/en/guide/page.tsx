@@ -3,7 +3,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { getCategories, getArticlesByCategory } from "@/lib/github-articles";
 import { getCategoryMeta } from "@/data/category-meta";
-import { SITE_URL } from "@/lib/seo";
+import { JsonLd, SITE_URL, SITE_NAME } from "@/lib/seo";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Good Fortune Guide - Feng Shui, Lucky Charms & Shrine Etiquette",
@@ -15,6 +17,13 @@ export const metadata: Metadata = {
       ja: `${SITE_URL}/kaiun-guide`,
       en: `${SITE_URL}/en/guide`,
     },
+  },
+  openGraph: {
+    title: "Good Fortune Guide - Feng Shui, Lucky Charms & Shrine Etiquette",
+    description:
+      "Comprehensive guide to Japanese good fortune practices. Learn about feng shui, lucky charms, shrine etiquette, and how to improve your luck.",
+    url: `${SITE_URL}/en/guide`,
+    type: "website",
   },
 };
 
@@ -47,6 +56,20 @@ export default function EnglishGuidePage() {
 
   return (
     <div>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Good Fortune Guide",
+          description:
+            "Comprehensive guide to Japanese good fortune practices. Learn about feng shui, lucky charms, shrine etiquette, and how to improve your luck.",
+          url: `${SITE_URL}/en/guide`,
+          inLanguage: "en",
+          publisher: { "@type": "Organization", name: SITE_NAME },
+          numberOfItems: totalArticles,
+        }}
+      />
+
       {/* Hero */}
       <section className="relative h-[300px] overflow-hidden">
         <Image
@@ -93,7 +116,7 @@ export default function EnglishGuidePage() {
             return (
               <Link
                 key={cat.id}
-                href={`/kaiun-guide`}
+                href={`/en/guide`}
                 className="group relative h-48 overflow-hidden rounded-2xl shadow-sm hover:shadow-xl transition-all"
               >
                 <Image

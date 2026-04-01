@@ -23,7 +23,10 @@ export const metadata: Metadata = {
     "天孫降臨",
     "神武天皇",
   ],
-  alternates: { canonical: `${SITE_URL}/kojiki` },
+  alternates: {
+    canonical: `${SITE_URL}/kojiki`,
+    languages: { ja: `${SITE_URL}/kojiki`, en: `${SITE_URL}/en/kojiki` },
+  },
   openGraph: {
     title: "古事記の神話物語｜日本の創世から神武天皇まで",
     description:

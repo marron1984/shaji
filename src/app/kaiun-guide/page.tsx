@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   ],
   alternates: {
     canonical: `${SITE_URL}/kaiun-guide`,
-    languages: { ja: `${SITE_URL}/kaiun-guide`, en: `${SITE_URL}/en/kaiun-guide` },
+    languages: { ja: `${SITE_URL}/kaiun-guide`, en: `${SITE_URL}/en/guide` },
   },
   openGraph: {
     title: "開運ガイド - 風水・縁起物・参拝マナー",
