@@ -7,31 +7,31 @@ import { JsonLd, SITE_URL, SITE_NAME } from "@/lib/seo";
 import { getAllKojikiStories } from "@/data/kojiki-data";
 
 export const metadata: Metadata = {
-  title: "古事記の神話物語｜日本の創世から神武天皇まで",
+  title: "Kojiki Mythology | From the Creation of Japan to Emperor Jimmu",
   description:
-    "古事記に記された日本神話の物語を分かりやすく解説。天地開闢、国生み、天岩戸、ヤマタノオロチ退治、天孫降臨など12の神話を、関連する神社情報とともに紹介。",
+    "Explore the myths of the Kojiki, Japan's oldest historical text. Twelve epic tales from the creation of heaven and earth to the legendary first emperor, with related shrine information.",
   keywords: [
-    "古事記",
-    "日本神話",
-    "天照大御神",
-    "スサノオ",
-    "大国主",
-    "イザナギ",
-    "イザナミ",
-    "天岩戸",
-    "ヤマタノオロチ",
-    "天孫降臨",
-    "神武天皇",
+    "Kojiki",
+    "Japanese mythology",
+    "Amaterasu",
+    "Susanoo",
+    "Okuninushi",
+    "Izanagi",
+    "Izanami",
+    "Ama-no-Iwato",
+    "Yamata no Orochi",
+    "Tenson Korin",
+    "Emperor Jimmu",
   ],
   alternates: {
-    canonical: `${SITE_URL}/kojiki`,
+    canonical: `${SITE_URL}/en/kojiki`,
     languages: { ja: `${SITE_URL}/kojiki`, en: `${SITE_URL}/en/kojiki` },
   },
   openGraph: {
-    title: "古事記の神話物語｜日本の創世から神武天皇まで",
+    title: "Kojiki Mythology | From the Creation of Japan to Emperor Jimmu",
     description:
-      "古事記に記された日本神話12の物語を、関連する神社情報とともに詳しく解説。",
-    url: `${SITE_URL}/kojiki`,
+      "Twelve mythological tales from the Kojiki with related shrine information.",
+    url: `${SITE_URL}/en/kojiki`,
     type: "article",
   },
 };
@@ -41,17 +41,28 @@ const stories = getAllKojikiStories();
 const kamiyoStories = stories.filter((s) => s.era === "kamiyo");
 const chuukanStories = stories.filter((s) => s.era === "chuukan");
 
-export default function KojikiPage() {
+/** English era labels */
+const eraLabelEn: Record<string, string> = {
+  "上巻（神代）": "Volume 1 (Age of the Gods)",
+  "中巻": "Volume 2",
+};
+
+function getEraLabelEn(label: string) {
+  return eraLabelEn[label] ?? label;
+}
+
+export default function KojikiEnPage() {
   return (
     <div>
       <JsonLd
         data={{
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          name: "古事記の神話物語",
+          name: "Kojiki Mythology",
           description:
-            "古事記に記された日本神話12の物語を関連神社情報とともに解説",
-          url: `${SITE_URL}/kojiki`,
+            "Twelve mythological tales from the Kojiki with related shrine information",
+          url: `${SITE_URL}/en/kojiki`,
+          inLanguage: "en",
           publisher: { "@type": "Organization", name: SITE_NAME },
           mainEntity: {
             "@type": "ItemList",
@@ -60,17 +71,17 @@ export default function KojikiPage() {
               "@type": "ListItem",
               position: s.num,
               name: s.title,
-              url: `${SITE_URL}/kojiki/${s.slug}`,
+              url: `${SITE_URL}/en/kojiki/${s.slug}`,
             })),
           },
         }}
       />
 
-      {/* ヒーロー */}
+      {/* Hero */}
       <section className="relative h-[380px] sm:h-[440px] overflow-hidden">
         <Image
           src="https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?w=1400&q=80"
-          alt="古事記の神話世界"
+          alt="The mythological world of the Kojiki"
           fill
           className="object-cover"
           priority
@@ -81,46 +92,56 @@ export default function KojikiPage() {
             Kojiki Mythology
           </p>
           <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
-            古事記の
-            <span className="text-gradient">神話物語</span>
+            Myths of the{" "}
+            <span className="text-gradient">Kojiki</span>
           </h1>
           <p className="mt-4 max-w-lg text-base text-white/60">
-            天地の始まりから神武天皇の建国まで——日本最古の歴史書が伝える12の壮大な物語
+            From the dawn of heaven and earth to the founding of Japan &mdash; twelve epic tales from the nation&apos;s oldest chronicle
           </p>
         </div>
       </section>
 
       <div className="max-w-3xl mx-auto px-4 py-10">
+        {/* Language Switch */}
+        <div className="flex justify-end mb-4">
+          <Link
+            href="/kojiki"
+            className="text-sm text-gray-500 hover:text-[var(--color-gold)] transition-colors"
+          >
+            🇯🇵 日本語
+          </Link>
+        </div>
+
         <Breadcrumb
           items={[
-            { label: "ホーム", href: "/" },
-            { label: "古事記の神話物語" },
+            { label: "Home", href: "/en" },
+            { label: "Kojiki Mythology" },
           ]}
         />
 
-        {/* 古事記とは */}
+        {/* About the Kojiki */}
         <section className="mt-12">
           <div className="flex items-center gap-3 mb-6">
             <span className="text-3xl">📜</span>
             <h2 className="text-2xl font-bold text-[var(--color-foreground)]">
-              古事記とは
+              What is the Kojiki?
             </h2>
           </div>
           <div className="space-y-4 text-[var(--color-muted)] leading-relaxed">
             <p>
-              古事記（こじき）は、和銅5年（712年）に太安万侶（おおのやすまろ）が天武天皇の命により編纂した日本最古の歴史書です。稗田阿礼（ひえだのあれ）が暗誦した神話・伝承・歌謡を記録したもので、上巻（神代）・中巻・下巻の三巻で構成されています。
+              The Kojiki (古事記, &ldquo;Record of Ancient Matters&rdquo;) is Japan&apos;s oldest surviving historical text, compiled in 712 CE by O no Yasumaro at the command of Emperor Tenmu. It records myths, legends, and songs memorized by Hieda no Are, and is organized into three volumes.
             </p>
             <p>
-              天地の始まりから神々の物語、そして初代天皇・神武天皇の即位へと至る壮大な叙事詩であり、日本人の精神文化・自然観・死生観の根幹を成す物語です。ここに登場する神々は現在も全国の神社に祀られ、日本の信仰と文化に息づいています。
+              Spanning from the creation of the universe to the reign of the first emperor, Jimmu, it is a grand epic that forms the spiritual foundation of Japanese culture &mdash; its view of nature, life, and death. The deities who appear in these stories are still enshrined at shrines across Japan today.
             </p>
           </div>
         </section>
 
-        {/* 目次 */}
+        {/* Table of Contents */}
         <Card className="mt-10">
           <div className="p-6">
             <h2 className="text-lg font-bold text-[var(--color-foreground)] mb-4">
-              📋 全{stories.length}話の神話物語
+              📋 All {stories.length} Mythological Tales
             </h2>
             <nav className="space-y-2">
               {stories.map((s) => (
@@ -129,28 +150,28 @@ export default function KojikiPage() {
                   href={`#story-${s.num}`}
                   className="block text-sm text-[var(--color-muted)] hover:text-[var(--color-gold)] transition-colors pl-2"
                 >
-                  {s.emoji} 第{s.num}話 {s.title}（{s.subtitle}）
+                  {s.emoji} Tale {s.num}: {s.title}({s.subtitle})
                 </a>
               ))}
             </nav>
           </div>
         </Card>
 
-        {/* 上巻（神代） */}
+        {/* Volume 1 — Age of the Gods */}
         <section className="mt-16">
           <div className="flex items-center gap-3 mb-8">
             <span className="text-3xl">🌅</span>
             <h2 className="text-2xl font-bold text-[var(--color-foreground)]">
-              上巻（神代）——神々の時代
+              Volume 1 (Kamiyo) &mdash; The Age of the Gods
             </h2>
           </div>
           <p className="text-[var(--color-muted)] leading-relaxed mb-8">
-            天地の始まりから、イザナギ・イザナミの国生み、アマテラスの岩戸隠れ、スサノオの英雄譚、大国主の国造りまで。日本の国土と神々が生まれる壮大な物語。
+            From the beginning of heaven and earth, through Izanagi and Izanami&apos;s creation of the land, Amaterasu&apos;s retreat into the cave, Susanoo&apos;s heroic exploits, to Okuninushi&apos;s nation-building &mdash; the grand saga of how Japan and its gods were born.
           </p>
           <div className="space-y-4">
             {kamiyoStories.map((s) => (
               <div key={s.slug} id={`story-${s.num}`}>
-                <Link href={`/kojiki/${s.slug}`}>
+                <Link href={`/en/kojiki/${s.slug}`}>
                   <Card>
                     <div className="p-5 flex gap-4">
                       <span className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-lg"
@@ -160,10 +181,10 @@ export default function KojikiPage() {
                       <div className="min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <span className="text-xs font-medium text-[var(--color-gold)]">
-                            第{s.num}話
+                            Tale {s.num}
                           </span>
                           <span className="text-xs text-[var(--color-muted)]">
-                            {s.eraLabel}
+                            {getEraLabelEn(s.eraLabel)}
                           </span>
                         </div>
                         <h3 className="font-bold text-[var(--color-foreground)]">
@@ -186,7 +207,7 @@ export default function KojikiPage() {
                           ))}
                           {s.deities.length > 3 && (
                             <span className="text-xs text-[var(--color-muted)]">
-                              他{s.deities.length - 3}柱
+                              +{s.deities.length - 3} more
                             </span>
                           )}
                         </div>
@@ -199,21 +220,21 @@ export default function KojikiPage() {
           </div>
         </section>
 
-        {/* 中巻 */}
+        {/* Volume 2 — From Heavenly Gods to Earthly Kings */}
         <section className="mt-20">
           <div className="flex items-center gap-3 mb-8">
             <span className="text-3xl">⚔️</span>
             <h2 className="text-2xl font-bold text-[var(--color-foreground)]">
-              中巻——天つ神から地上の王へ
+              Volume 2 &mdash; From Heavenly Gods to Earthly Kings
             </h2>
           </div>
           <p className="text-[var(--color-muted)] leading-relaxed mb-8">
-            国譲りを経て天孫ニニギが高千穂に降臨し、海幸山幸の兄弟物語を経て、初代天皇・神武天皇が大和に王権を築くまでの物語。
+            After the transfer of the land, the heavenly grandson Ninigi descends to Takachiho. Through the tale of the Sea and Mountain brothers, the story reaches the founding of the Yamato dynasty by Japan&apos;s first emperor, Jimmu.
           </p>
           <div className="space-y-4">
             {chuukanStories.map((s) => (
               <div key={s.slug} id={`story-${s.num}`}>
-                <Link href={`/kojiki/${s.slug}`}>
+                <Link href={`/en/kojiki/${s.slug}`}>
                   <Card>
                     <div className="p-5 flex gap-4">
                       <span className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-lg"
@@ -223,10 +244,10 @@ export default function KojikiPage() {
                       <div className="min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <span className="text-xs font-medium text-[var(--color-shrine)]">
-                            第{s.num}話
+                            Tale {s.num}
                           </span>
                           <span className="text-xs text-[var(--color-muted)]">
-                            {s.eraLabel}
+                            {getEraLabelEn(s.eraLabel)}
                           </span>
                         </div>
                         <h3 className="font-bold text-[var(--color-foreground)]">
@@ -249,7 +270,7 @@ export default function KojikiPage() {
                           ))}
                           {s.deities.length > 3 && (
                             <span className="text-xs text-[var(--color-muted)]">
-                              他{s.deities.length - 3}柱
+                              +{s.deities.length - 3} more
                             </span>
                           )}
                         </div>
@@ -262,32 +283,35 @@ export default function KojikiPage() {
           </div>
         </section>
 
-        {/* 関連する神社 */}
+        {/* Related Shrines */}
         <section className="mt-20">
           <div className="flex items-center gap-3 mb-8">
             <span className="text-3xl">⛩️</span>
             <h2 className="text-2xl font-bold text-[var(--color-foreground)]">
-              古事記ゆかりの主な神社
+              Major Shrines Connected to the Kojiki
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
-              { name: "伊勢神宮", deity: "天照大御神", pref: "三重県" },
-              { name: "出雲大社", deity: "大国主命", pref: "島根県" },
-              { name: "熱田神宮", deity: "草薙剣", pref: "愛知県" },
-              { name: "住吉大社", deity: "住吉三神", pref: "大阪府" },
-              { name: "鹿島神宮", deity: "タケミカヅチ", pref: "茨城県" },
-              { name: "諏訪大社", deity: "タケミナカタ", pref: "長野県" },
-              { name: "霧島神宮", deity: "ニニギノミコト", pref: "鹿児島県" },
-              { name: "橿原神宮", deity: "神武天皇", pref: "奈良県" },
+              { name: "Ise Jingu", nameJa: "伊勢神宮", deity: "Amaterasu", pref: "Mie" },
+              { name: "Izumo Taisha", nameJa: "出雲大社", deity: "Okuninushi", pref: "Shimane" },
+              { name: "Atsuta Jingu", nameJa: "熱田神宮", deity: "Kusanagi Sword", pref: "Aichi" },
+              { name: "Sumiyoshi Taisha", nameJa: "住吉大社", deity: "Sumiyoshi Sanjin", pref: "Osaka" },
+              { name: "Kashima Jingu", nameJa: "鹿島神宮", deity: "Takemikazuchi", pref: "Ibaraki" },
+              { name: "Suwa Taisha", nameJa: "諏訪大社", deity: "Takeminakata", pref: "Nagano" },
+              { name: "Kirishima Jingu", nameJa: "霧島神宮", deity: "Ninigi no Mikoto", pref: "Kagoshima" },
+              { name: "Kashihara Jingu", nameJa: "橿原神宮", deity: "Emperor Jimmu", pref: "Nara" },
             ].map((shrine) => (
               <Card key={shrine.name}>
                 <div className="p-4">
                   <h3 className="font-bold text-[var(--color-foreground)]">
                     {shrine.name}
                   </h3>
+                  <p className="text-xs text-[var(--color-muted)] mt-0.5">
+                    {shrine.nameJa}
+                  </p>
                   <p className="text-xs text-[var(--color-muted)] mt-1">
-                    {shrine.pref}｜{shrine.deity}
+                    {shrine.pref} | {shrine.deity}
                   </p>
                 </div>
               </Card>
@@ -298,21 +322,21 @@ export default function KojikiPage() {
         {/* CTA */}
         <div className="mt-20 text-center">
           <p className="text-[var(--color-muted)] mb-4">
-            もっと日本の文化を深く知る
+            Explore more of Japanese culture
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link
-              href="/jinja"
+              href="/en/shrines"
               className="group relative rounded-full px-8 py-3.5 text-sm font-bold overflow-hidden"
             >
               <span className="absolute inset-0 bg-gradient-to-r from-[var(--color-shrine)] to-[var(--color-gold)] opacity-90 group-hover:opacity-100 transition-opacity" />
-              <span className="relative text-white">神社・お寺一覧</span>
+              <span className="relative text-white">Shrines &amp; Temples</span>
             </Link>
             <Link
-              href="/sanpai-manner"
+              href="/en/guide"
               className="rounded-full border border-[var(--color-border)] px-8 py-3.5 text-sm font-bold text-[var(--color-muted)] hover:text-[var(--color-foreground)] hover:border-[var(--color-gold)]/40 transition-all"
             >
-              参拝マナーガイド
+              Good Fortune Guide
             </Link>
           </div>
         </div>

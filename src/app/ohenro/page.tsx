@@ -19,7 +19,10 @@ export const metadata: Metadata = {
     "巡礼",
     "札所",
   ],
-  alternates: { canonical: `${SITE_URL}/ohenro` },
+  alternates: {
+    canonical: `${SITE_URL}/ohenro`,
+    languages: { ja: `${SITE_URL}/ohenro`, en: `${SITE_URL}/en/ohenro` },
+  },
   openGraph: {
     title: "四国八十八箇所 お遍路ガイド",
     description:

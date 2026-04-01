@@ -17,7 +17,7 @@ const PREFECTURES = [
 
 const PER_PAGE = 50;
 
-export default function TempleSearch() {
+export default function TempleSearch({ basePath = "/temples" }: { basePath?: string }) {
   const [allTemples, setAllTemples] = useState<Temple[]>([]);
   const [loading, setLoading] = useState(true);
   const [keyword, setKeyword] = useState("");
@@ -174,7 +174,7 @@ export default function TempleSearch() {
               >
                 <td className="px-3 py-2 font-medium">
                   <Link
-                    href={`/temples/${t.id}`}
+                    href={`${basePath}/${t.id}`}
                     className="text-[var(--color-temple)] hover:underline"
                   >
                     {t.name}

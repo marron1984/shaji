@@ -66,7 +66,7 @@ export default async function EnglishShrineDetailPage({
         data={{
           "@context": "https://schema.org",
           "@type":
-            shrine.type === "shrine" ? "HinduTemple" : "BuddhistTemple",
+            shrine.type === "shrine" ? "PlaceOfWorship" : "BuddhistTemple",
           name,
           description,
           address: {

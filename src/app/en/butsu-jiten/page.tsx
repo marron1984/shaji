@@ -10,34 +10,52 @@ import {
   BUTSU_CATEGORIES,
 } from "@/data/butsu-data";
 
+const categoryNameEn: Record<string, string> = {
+  nyorai: "Nyorai (Tathagata)",
+  bosatsu: "Bosatsu (Bodhisattva)",
+  myoo: "Myoo (Wisdom Kings)",
+  tenbu: "Tenbu (Heavenly Beings)",
+};
+
+const categoryDescEn: Record<string, string> = {
+  nyorai: "Fully enlightened Buddhas of the highest rank",
+  bosatsu: "Compassionate beings who practice to save all sentient beings",
+  myoo: "Wrathful protectors who destroy worldly desires",
+  tenbu: "Heavenly deities who guard the Buddhist dharma",
+};
+
 export const metadata: Metadata = {
-  title: "仏様辞典｜如来・菩薩・明王・天部を網羅的に解説",
+  title: "Buddhist Deity Encyclopedia | Nyorai, Bosatsu, Myoo & Tenbu",
   description:
-    "日本の仏教に登場する仏様を網羅的に解説。如来・菩薩・明王・天部の四種類に分けて、お姿の特徴・ご利益・真言・代表的な寺院まで詳しく紹介します。",
+    "A comprehensive guide to Buddhist deities in Japanese Buddhism. Learn about Nyorai (Tathagata), Bosatsu (Bodhisattva), Myoo (Wisdom Kings), and Tenbu (Heavenly Beings) — their iconography, benefits, mantras, and famous temples.",
   keywords: [
-    "仏様",
-    "仏像",
-    "如来",
-    "菩薩",
-    "明王",
-    "天部",
-    "仏教",
-    "ご利益",
-    "真言",
-    "観音",
-    "不動明王",
-    "阿弥陀如来",
+    "Buddhist deities",
+    "Japanese Buddhism",
+    "Nyorai",
+    "Bosatsu",
+    "Myoo",
+    "Tenbu",
+    "Tathagata",
+    "Bodhisattva",
+    "Wisdom Kings",
+    "Fudo Myoo",
+    "Amida",
+    "Kannon",
   ],
   alternates: {
-    canonical: `${SITE_URL}/butsu-jiten`,
-    languages: { ja: `${SITE_URL}/butsu-jiten`, en: `${SITE_URL}/en/butsu-jiten` },
+    canonical: `${SITE_URL}/en/butsu-jiten`,
+    languages: {
+      ja: `${SITE_URL}/butsu-jiten`,
+      en: `${SITE_URL}/en/butsu-jiten`,
+    },
   },
   openGraph: {
-    title: "仏様辞典｜如来・菩薩・明王・天部を網羅的に解説",
+    title: "Buddhist Deity Encyclopedia | Nyorai, Bosatsu, Myoo & Tenbu",
     description:
-      "日本の仏教に登場する仏様を網羅的に解説。お姿の特徴・ご利益・真言まで詳しく紹介。",
-    url: `${SITE_URL}/butsu-jiten`,
+      "A comprehensive guide to Buddhist deities in Japanese Buddhism. Iconography, benefits, mantras & famous temples.",
+    url: `${SITE_URL}/en/butsu-jiten`,
     type: "article",
+    locale: "en_US",
   },
 };
 
@@ -48,7 +66,7 @@ const categoryVariant = {
   tenbu: "gray",
 } as const;
 
-export default function ButsuJitenPage() {
+export default function ButsuJitenEnPage() {
   const allDeities = getAllButsuDeities();
 
   return (
@@ -57,10 +75,11 @@ export default function ButsuJitenPage() {
         data={{
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          name: "仏様辞典",
+          name: "Buddhist Deity Encyclopedia",
           description:
-            "日本の仏教に登場する仏様を網羅的に解説する辞典",
-          url: `${SITE_URL}/butsu-jiten`,
+            "A comprehensive encyclopedia of Buddhist deities in Japanese Buddhism",
+          url: `${SITE_URL}/en/butsu-jiten`,
+          inLanguage: "en",
           mainEntity: {
             "@type": "ItemList",
             numberOfItems: allDeities.length,
@@ -68,13 +87,13 @@ export default function ButsuJitenPage() {
               "@type": "ListItem",
               position: i + 1,
               name: d.name,
-              url: `${SITE_URL}/butsu-jiten/${d.slug}`,
+              url: `${SITE_URL}/en/butsu-jiten/${d.slug}`,
             })),
           },
         }}
       />
 
-      {/* ヒーロー */}
+      {/* Hero */}
       <section className="relative h-[380px] sm:h-[440px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-temple)]/20 via-black/60 to-[var(--color-background)]" />
         <div className="absolute inset-0 flex items-center justify-center opacity-5">
@@ -85,13 +104,14 @@ export default function ButsuJitenPage() {
             Buddhist Deity Encyclopedia
           </p>
           <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
-            <span className="text-gradient">仏様辞典</span>
+            <span className="text-gradient">Buddhist Deities</span>
           </h1>
           <p className="mt-4 max-w-lg text-base text-white/60">
-            如来・菩薩・明王・天部 — 日本仏教の仏様を網羅的に解説
+            Nyorai, Bosatsu, Myoo &amp; Tenbu — A complete guide to the deities
+            of Japanese Buddhism
           </p>
           <p className="mt-2 text-sm text-white/40">
-            全{allDeities.length}尊を収録
+            {allDeities.length} deities catalogued
           </p>
         </div>
       </section>
@@ -99,38 +119,62 @@ export default function ButsuJitenPage() {
       <div className="max-w-3xl mx-auto px-4 py-10">
         <Breadcrumb
           items={[
-            { label: "ホーム", href: "/" },
-            { label: "仏様辞典" },
+            { label: "Home", href: "/en" },
+            { label: "Buddhist Deity Encyclopedia" },
           ]}
         />
 
-        {/* 仏様とは */}
+        {/* Language Switch */}
+        <div className="mt-4 flex justify-center">
+          <Link
+            href="/butsu-jiten"
+            className="text-sm text-gray-500 hover:text-[var(--color-gold)] transition-colors"
+          >
+            🇯🇵 日本語
+          </Link>
+        </div>
+
+        {/* Introduction */}
         <section className="mt-12">
           <div className="flex items-center gap-3 mb-6">
             <span className="text-3xl">☸</span>
             <h2 className="text-2xl font-bold text-[var(--color-foreground)]">
-              仏様とは
+              What Are Buddhist Deities?
             </h2>
           </div>
           <div className="space-y-4 text-[var(--color-muted)] leading-relaxed">
             <p>
-              お寺を参拝したとき、本堂に安置された仏像に手を合わせたことがある方は多いでしょう。しかし、その仏様がどのような存在で、どのようなご利益があるのかをご存知でしょうか。
+              When visiting a temple in Japan, you may have placed your hands
+              together before a statue enshrined in the main hall. But do you
+              know what kind of being that deity is or what blessings it
+              bestows?
             </p>
             <p>
-              仏教には多種多様な仏様が存在し、大きく「如来」「菩薩」「明王」「天部」の四つの階層に分けられます。悟りを開いた最高位の「如来」、衆生を救うために修行する「菩薩」、忿怒の姿で煩悩を打ち砕く「明王」、そして仏法を守護する天界の「天部」。それぞれに個性的なお姿とご利益があります。
+              Buddhism features a rich pantheon of deities, broadly divided into
+              four ranks: <strong>Nyorai</strong> (Tathagata) — fully
+              enlightened Buddhas of the highest rank;{" "}
+              <strong>Bosatsu</strong> (Bodhisattva) — compassionate beings who
+              practice to save all sentient beings; <strong>Myoo</strong>{" "}
+              (Wisdom Kings) — wrathful protectors who destroy worldly desires;
+              and <strong>Tenbu</strong> (Heavenly Beings) — heavenly deities
+              who guard the Buddhist dharma. Each has a distinctive appearance
+              and unique blessings to offer.
             </p>
             <p>
-              この辞典では、日本の寺院でお目にかかれる主要な仏様を網羅的に紹介します。お姿の見分け方、ご利益、真言、ゆかりの寺院まで詳しく解説していますので、寺院巡りのお供にご活用ください。
+              This encyclopedia introduces the major deities you can encounter
+              at temples across Japan. It covers their iconography, spiritual
+              benefits, mantras, and associated temples — a perfect companion
+              for your temple pilgrimage.
             </p>
           </div>
         </section>
 
-        {/* 四種類の解説 */}
+        {/* Four Categories */}
         <section className="mt-16">
           <div className="flex items-center gap-3 mb-8">
             <span className="text-3xl">📖</span>
             <h2 className="text-2xl font-bold text-[var(--color-foreground)]">
-              仏様の四つの階層
+              The Four Ranks of Buddhist Deities
             </h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -140,14 +184,14 @@ export default function ButsuJitenPage() {
                   <div className="flex items-center gap-3 mb-2">
                     <span className="text-2xl">{cat.emoji}</span>
                     <h3 className="text-lg font-bold text-[var(--color-foreground)] group-hover:text-[var(--color-gold)] transition-colors">
-                      {cat.label}
+                      {categoryNameEn[cat.key]}
                     </h3>
                     <span className="ml-auto text-xs text-[var(--color-muted)]">
-                      {getButsuByCategory(cat.key).length}尊
+                      {getButsuByCategory(cat.key).length} deities
                     </span>
                   </div>
                   <p className="text-sm text-[var(--color-muted)]">
-                    {cat.description}
+                    {categoryDescEn[cat.key]}
                   </p>
                 </a>
               </Card>
@@ -155,7 +199,7 @@ export default function ButsuJitenPage() {
           </div>
         </section>
 
-        {/* カテゴリ別一覧 */}
+        {/* Category Lists */}
         {BUTSU_CATEGORIES.map((cat) => {
           const deities = getButsuByCategory(cat.key);
           if (deities.length === 0) return null;
@@ -164,15 +208,18 @@ export default function ButsuJitenPage() {
               <div className="flex items-center gap-3 mb-8">
                 <span className="text-3xl">{cat.emoji}</span>
                 <h2 className="text-2xl font-bold text-[var(--color-foreground)]">
-                  {cat.label}
+                  {categoryNameEn[cat.key]}
                 </h2>
                 <span className="text-sm text-[var(--color-muted)]">
-                  （{deities.length}尊）
+                  ({deities.length} deities)
                 </span>
               </div>
               <div className="space-y-4">
                 {deities.map((deity) => (
-                  <Link key={deity.slug} href={`/butsu-jiten/${deity.slug}`}>
+                  <Link
+                    key={deity.slug}
+                    href={`/en/butsu-jiten/${deity.slug}`}
+                  >
                     <Card>
                       <div className="p-5 flex gap-4 group">
                         <span className="shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-2xl bg-[var(--color-background-elevated)]">
@@ -189,7 +236,7 @@ export default function ButsuJitenPage() {
                             />
                           </div>
                           <p className="text-xs text-[var(--color-temple)] mb-1">
-                            {deity.yomikata}・{deity.sanskrit}
+                            {deity.yomikata} · {deity.sanskrit}
                           </p>
                           <p className="text-sm text-[var(--color-muted)] line-clamp-2">
                             {deity.summary}
@@ -207,21 +254,21 @@ export default function ButsuJitenPage() {
         {/* CTA */}
         <div className="mt-20 text-center">
           <p className="text-[var(--color-muted)] mb-4">
-            仏様を知って、寺院巡りをもっと楽しく
+            Learn about the deities and enrich your temple visits
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link
-              href="/temples"
+              href="/en/temples"
               className="group relative rounded-full px-8 py-3.5 text-sm font-bold overflow-hidden"
             >
               <span className="absolute inset-0 bg-gradient-to-r from-[var(--color-temple)] to-[var(--color-gold)] opacity-90 group-hover:opacity-100 transition-opacity" />
-              <span className="relative text-white">寺院を探す</span>
+              <span className="relative text-white">Search Temples</span>
             </Link>
             <Link
-              href="/sanpai-manner"
+              href="/en/sanpai-manner"
               className="rounded-full border border-[var(--color-border)] px-8 py-3.5 text-sm font-bold text-[var(--color-muted)] hover:text-[var(--color-foreground)] hover:border-[var(--color-gold)]/40 transition-all"
             >
-              参拝マナーを確認
+              Temple Visit Etiquette
             </Link>
           </div>
         </div>
