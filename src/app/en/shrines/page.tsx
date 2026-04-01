@@ -1,19 +1,32 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import { getAllShrines } from "@/lib/shrines";
-import { getShrineEn } from "@/lib/shrine-en";
-import { SITE_URL } from "@/lib/seo";
-import Tag from "@/components/ui/Tag";
-import { getShrineImageByType } from "@/data/shrine-images";
+import { SITE_URL, SITE_NAME, JsonLd } from "@/lib/seo";
+import Breadcrumb from "@/components/layout/Breadcrumb";
+import ShrineFilterEn from "@/components/shrine/ShrineFilterEn";
 
 export const metadata: Metadata = {
   title: "Shrines & Temples in Japan - Complete Guide",
   description:
-    "Explore famous shrines and temples across Japan. Find visitor information, spiritual significance, and travel tips for each sacred place.",
+    "Explore famous shrines and temples across Japan. Filter by region and type. Find visitor information, spiritual significance, and travel tips for each sacred place.",
+  keywords: [
+    "Japan shrines",
+    "Japan temples",
+    "Shinto shrines",
+    "Buddhist temples",
+    "Japan travel",
+    "sacred places Japan",
+  ],
   alternates: {
     canonical: `${SITE_URL}/en/shrines`,
     languages: { ja: `${SITE_URL}/jinja`, en: `${SITE_URL}/en/shrines` },
+  },
+  openGraph: {
+    title: "Shrines & Temples in Japan - Complete Guide",
+    description:
+      "Explore famous shrines and temples across Japan. Filter by region and type.",
+    url: `${SITE_URL}/en/shrines`,
+    type: "website",
   },
 };
 
@@ -22,7 +35,41 @@ export default function EnglishShrineListPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <div className="flex items-center justify-between mb-6">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Shrines & Temples in Japan",
+          description:
+            "Explore famous shrines and temples across Japan, filtered by region and type.",
+          url: `${SITE_URL}/en/shrines`,
+          publisher: { "@type": "Organization", name: SITE_NAME },
+          numberOfItems: shrines.length,
+        }}
+      />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: `${SITE_URL}/en`,
+            },
+            { "@type": "ListItem", position: 2, name: "Shrines & Temples" },
+          ],
+        }}
+      />
+      <Breadcrumb
+        items={[
+          { label: "Home", href: "/en" },
+          { label: "Shrines & Temples" },
+        ]}
+      />
+
+      <div className="flex items-center justify-between mt-4 mb-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-800">
             Shrines &amp; Temples in Japan
@@ -39,49 +86,7 @@ export default function EnglishShrineListPage() {
         </Link>
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {shrines.map((shrine) => {
-          const en = getShrineEn(shrine.slug);
-          return (
-            <Link
-              key={shrine.slug}
-              href={`/en/shrines/${shrine.slug}`}
-              className="group block overflow-hidden rounded-2xl bg-white shadow-sm hover:shadow-xl transition-all"
-            >
-              <div className="relative h-44 overflow-hidden">
-                <Image
-                  src={getShrineImageByType(shrine.type)}
-                  alt={en?.name || shrine.name}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                <div className="absolute top-3 left-3">
-                  <Tag
-                    label={shrine.type === "shrine" ? "Shrine" : "Temple"}
-                    variant={shrine.type === "shrine" ? "shrine" : "temple"}
-                  />
-                </div>
-                <div className="absolute bottom-3 left-4 right-4">
-                  <h2 className="text-lg font-bold text-white drop-shadow-lg">
-                    {en?.name || shrine.name}
-                  </h2>
-                  <p className="text-xs text-white/80">{shrine.prefecture}</p>
-                </div>
-              </div>
-              <div className="p-4">
-                <p className="text-sm text-gray-600 line-clamp-2">
-                  {en?.description || shrine.shortDescription}
-                </p>
-                <p className="mt-2 text-sm font-medium text-[var(--color-shrine)] group-hover:underline">
-                  Learn more →
-                </p>
-              </div>
-            </Link>
-          );
-        })}
-      </div>
+      <ShrineFilterEn shrines={shrines} />
     </div>
   );
 }
