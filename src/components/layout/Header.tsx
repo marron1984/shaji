@@ -9,6 +9,8 @@ const navItems = [
   { label: "古事記", href: "/kojiki" },
   { label: "仏様辞典", href: "/butsu-jiten" },
   { label: "上座部仏教", href: "/theravada" },
+  { label: "MBTI診断", href: "/butsu-mbti" },
+  { label: "お遍路", href: "/ohenro" },
   { label: "開運ガイド", href: "/kaiun-guide" },
   { label: "参拝マナー", href: "/sanpai-manner" },
   { label: "霊場めぐり", href: "/reijo" },
